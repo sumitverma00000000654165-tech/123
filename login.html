@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login · Triveni Pathsala</title>
+    <style>
+        :root {
+            --bg: #0b1120;
+            --card-bg: rgba(15, 23, 42, 0.9);
+            --border: rgba(71, 85, 105, 0.55);
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent2: #3b82f6;
+            --danger: #f87171;
+            --success: #4ade80;
+            --warning: #facc15;
+            --radius: 1.2rem;
+            --radius-sm: 0.85rem;
+            --shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.55);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            font-size: 16px;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(155deg, #0b1120 0%, #0f172a 30%, #111827 70%, #0b1120 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 55%),
+                radial-gradient(circle at 75% 60%, rgba(56, 189, 248, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, rgba(59, 130, 246, 0.04) 0%, transparent 45%);
+            animation: bgPulse 10s ease-in-out infinite;
+        }
+        @keyframes bgPulse {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        .login-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 460px;
+        }
+        .institution-badge {
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        .institution-badge span {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #bae6fd;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            padding: 2rem 1.6rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+        .login-header .icon-row {
+            font-size: 2.4rem;
+            margin-bottom: 0.3rem;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        .login-header h1 {
+            font-size: 1.65rem;
+            font-weight: 750;
+            background: linear-gradient(135deg, #e2e8f0 0%, #bae6fd 50%, #94a3b8 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 0.015em;
+        }
+        .login-header .subtitle {
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+            letter-spacing: 0.03em;
+        }
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: #cbd5e1;
+            margin-bottom: 0.45rem;
+            font-weight: 550;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+        }
+        .input-label .label-icon {
+            font-size: 1.05rem;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.85rem 1.05rem;
+            background: #0f172a;
+            border: 1.6px solid #2d3a5e;
+            border-radius: var(--radius-sm);
+            color: #f1f5f9;
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .input-field::placeholder {
+            color: #4b5563;
+        }
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+            background: #111c2f;
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(105deg, #3b82f6, #2563eb);
+            border: none;
+            padding: 0.9rem;
+            border-radius: 2rem;
+            font-weight: 650;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(37, 99, 235, 0.4);
+        }
+        .submit-btn:active {
+            transform: scale(0.97);
+        }
+        .submit-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            pointer-events: none;
+            filter: grayscale(30%);
+        }
+        .submit-btn .btn-loader {
+            display: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2.5px solid rgba(255, 255, 255, 0.35);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        .submit-btn.loading .btn-text {
+            display: none;
+        }
+        .submit-btn.loading .btn-loader {
+            display: inline-block;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .feedback {
+            margin-top: 1.2rem;
+            padding: 0.75rem 0.9rem;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 0, 0, 0.35);
+            text-align: center;
+            font-size: 0.82rem;
+            letter-spacing: 0.02em;
+            transition: var(--transition);
+            min-height: 2.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            border-left: 3px solid transparent;
+        }
+        .feedback.info {
+            color: #facc15;
+            border-left-color: #facc15;
+        }
+        .feedback.success {
+            color: #86efac;
+            border-left-color: #4ade80;
+        }
+        .feedback.error {
+            color: #fca5a5;
+            border-left-color: #f87171;
+        }
+        .firebase-status {
+            text-align: center;
+            margin-top: 0.9rem;
+            font-size: 0.68rem;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4b5563;
+            transition: var(--transition);
+        }
+        .status-dot.connected {
+            background: #4ade80;
+            box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        .status-dot.error {
+            background: #f87171;
+            box-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(74, 222, 128, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 14px rgba(74, 222, 128, 0.8);
+            }
+        }
+        @media (max-width: 400px) {
+            .login-card {
+                padding: 1.5rem 1.1rem;
+                border-radius: 1.5rem;
+            }
+            .login-header h1 {
+                font-size: 1.35rem;
+            }
+            .input-field {
+                padding: 0.75rem 0.9rem;
+                font-size: 0.88rem;
+            }
+            .submit-btn {
+                padding: 0.8rem;
+                font-size: 0.93rem;
+            }
+            .feedback {
+                font-size: 0.74rem;
+                padding: 0.65rem 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="institution-badge">
+            <span>🏫 Triveni Pathsala</span>
+        </div>
+        <div class="login-card">
+            <div class="login-header">
+                <div class="icon-row">⚡</div>
+                <h1>Student Portal</h1>
+                <p class="subtitle">Sign in with your Student ID &amp; Password</p>
+            </div>
+            <form id="loginForm" autocomplete="off" novalidate>
+                <div class="input-group">
+                    <label class="input-label" id="field1Label">
+                        <span class="label-icon">🆔</span> STUDENT ID
+                    </label>
+                    <input type="text" id="field1" class="input-field" placeholder="Enter your Student ID" autocomplete="off" autocorrect="off" spellcheck="false" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label" id="field2Label">
+                        <span class="label-icon">🔑</span> PASSWORD
+                    </label>
+                    <input type="password" id="field2" class="input-field" placeholder="Enter your Password" autocomplete="off" required>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-loader"></span>
+                    <span class="btn-text">→ Sign In ←</span>
+                </button>
+            </form>
+            <div id="feedbackMsg" class="feedback info">
+                ✨ Enter your credentials to continue
+            </div>
+            <div class="firebase-status">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">Connecting to server...</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+        import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBeZl52HEWGz-vE72QZ5taznvpYTfq3QUk",
+            authDomain: "login-and-reg-5728d.firebaseapp.com",
+            databaseURL: "https://login-and-reg-5728d-default-rtdb.firebaseio.com",
+            projectId: "login-and-reg-5728d",
+            storageBucket: "login-and-reg-5728d.firebasestorage.app",
+            messagingSenderId: "435846403197",
+            appId: "1:435846403197:web:d6a05a55e40839d15dcd14"
+        };
+
+        let app, database;
+        try {
+            app = initializeApp(firebaseConfig);
+            database = getDatabase(app);
+            console.log('✅ Firebase initialized');
+        } catch (err) {
+            console.error('❌ Firebase init error:', err);
+        }
+
+        const form = document.getElementById('loginForm');
+        const field1Input = document.getElementById('field1');
+        const field2Input = document.getElementById('field2');
+        const feedbackDiv = document.getElementById('feedbackMsg');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+
+        function updateConnectionStatus(connected, message) {
+            statusDot.className = 'status-dot ' + (connected ? 'connected' : 'error');
+            statusText.textContent = message;
+        }
+
+        async function checkConnection() {
+            try {
+                const dbRef = ref(database);
+                await get(child(dbRef, 'students'));
+                updateConnectionStatus(true, 'Server connected');
+                return true;
+            } catch (e) {
+                if (e.code === 'PERMISSION_DENIED') {
+                    updateConnectionStatus(true, 'Connected (check DB rules)');
+                    return true;
+                }
+                updateConnectionStatus(false, 'Connection failed');
+                return false;
+            }
+        }
+
+        function setFeedback(msg, type = 'info') {
+            feedbackDiv.className = 'feedback ' + type;
+            feedbackDiv.innerHTML = msg;
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                field1Input.disabled = true;
+                field2Input.disabled = true;
+            } else {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                field1Input.disabled = false;
+                field2Input.disabled = false;
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const studentId = field1Input.value.trim();
+            const password = field2Input.value.trim();
+
+            if (!studentId && !password) {
+                setFeedback('⚠️ Please enter both Student ID and Password.', 'error');
+                return;
+            }
+            if (!studentId) {
+                setFeedback('⚠️ Please enter your Student ID.', 'error');
+                return;
+            }
+            if (!password) {
+                setFeedback('⚠️ Please enter your Password.', 'error');
+                return;
+            }
+
+            const isConnected = await checkConnection();
+            if (!isConnected) {
+                setFeedback('🔌 Cannot reach server. Check your internet.', 'error');
+                return;
+            }
+
+            setLoading(true);
+            setFeedback('🔍 Verifying credentials...', 'info');
+
+            try {
+                const dbRef = ref(database);
+                const snapshot = await get(child(dbRef, `students/${studentId}`));
+                
+                if (!snapshot.exists()) {
+                    setFeedback('❌ Student ID not found.', 'error');
+                    setLoading(false);
+                    return;
+                }
+
+                const studentData = snapshot.val();
+                const storedPassword = studentData.password || studentData.pin || '';
+
+                if (password !== storedPassword) {
+                    setFeedback('🔒 Incorrect password. Please try again.', 'error');
+                    setLoading(false);
+                    return;
+                }
+
+                // Success – store session
+                sessionStorage.setItem('triveni_student', JSON.stringify({
+                    studentId: studentId,
+                    fullName: studentData.fullName || studentId,
+                    timestamp: Date.now()
+                }));
+
+                setFeedback('✅ Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = './dashboard.html';
+                }, 400);
+
+            } catch (err) {
+                console.error(err);
+                setFeedback('⚠️ Something went wrong. Please try again.', 'error');
+                setLoading(false);
+            }
+        });
+
+        // Clear error on input
+        field1Input.addEventListener('input', () => {
+            if (feedbackDiv.classList.contains('error')) setFeedback('✨ Enter your credentials to continue', 'info');
+        });
+        field2Input.addEventListener('input', () => {
+            if (feedbackDiv.classList.contains('error')) setFeedback('✨ Enter your credentials to continue', 'info');
+        });
+
+        (async function init() {
+            await checkConnection();
+            setTimeout(() => field1Input.focus(), 500);
+        })();
+    </script>
+</body>
+</html>
