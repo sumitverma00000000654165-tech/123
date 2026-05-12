@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Triveni Pathsala • Learning Hub</title>
-    <!-- Font Awesome 6 & Google Fonts -->
+    
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Firebase SDKs (Compat + Modular for Messaging) -->
+    
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+    
     <style>
-        /* Your existing styles (kept exactly the same) */
         :root {
             --primary: #1e3c72;
             --accent: #f97316;
@@ -26,10 +30,6 @@
             --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.08);
             --radius-sm: 14px;
             --transition: 0.2s ease;
-            --toast-success: #10b981;
-            --toast-info: #3b82f6;
-            --toast-warning: #f59e0b;
-            --toast-error: #ef4444;
         }
 
         * {
@@ -49,6 +49,7 @@
             line-height: 1.5;
         }
 
+        /* Header Styles */
         .main-header {
             background: white;
             box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
@@ -58,6 +59,7 @@
             padding: 10px 0;
             border-bottom: 1px solid var(--border);
         }
+
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -67,11 +69,13 @@
             justify-content: space-between;
             gap: 12px;
         }
+
         .header-left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .logo-area {
             display: flex;
             align-items: center;
@@ -79,6 +83,7 @@
             cursor: pointer;
             text-decoration: none;
         }
+
         .logo-icon {
             background: var(--primary);
             width: 36px;
@@ -91,9 +96,11 @@
             font-size: 18px;
             transition: transform 0.2s;
         }
+
         .logo-area:hover .logo-icon {
             transform: scale(1.05);
         }
+
         .site-name {
             font-weight: 700;
             font-size: 1rem;
@@ -101,11 +108,14 @@
             letter-spacing: -0.3px;
             white-space: nowrap;
         }
+
         .header-actions {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
+        /* Subscribe Button Styles */
         .subscribe-btn {
             background: #fef3c7;
             border: 1.5px solid #f59e0b;
@@ -122,25 +132,31 @@
             white-space: nowrap;
             font-family: 'Inter', sans-serif;
         }
+
         .subscribe-btn:hover {
             background: #fde68a;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
         }
+
         .subscribe-btn.subscribed {
             background: #dcfce7;
             border-color: #10b981;
             color: #065f46;
         }
+
         .subscribe-btn.subscribed i {
             color: #10b981;
         }
+
         .subscribe-btn.blocked {
             background: #fee2e2;
             border-color: #ef4444;
             color: #991b1b;
-            cursor: help;
+            cursor: pointer;
         }
+
+        /* Notification Bell Icon */
         .notify-icon {
             background: #f1f5f9;
             width: 38px;
@@ -157,9 +173,11 @@
             border: none;
             font-family: inherit;
         }
+
         .notify-icon:hover {
             background: #e2e8f0;
         }
+
         .notify-badge {
             position: absolute;
             top: -4px;
@@ -175,24 +193,19 @@
             text-align: center;
             display: none;
         }
+
         .notify-badge.visible {
             display: block;
             animation: badgePop 0.3s ease;
         }
+
         @keyframes badgePop {
-            0% {
-                transform: scale(0.5);
-                opacity: 0;
-            }
-            70% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Notification Dropdown */
         .notif-dropdown {
             position: absolute;
             top: 52px;
@@ -209,19 +222,16 @@
             display: none;
             animation: dropdownIn 0.25s cubic-bezier(0.22, 0.97, 0.36, 1.1);
         }
+
         .notif-dropdown.open {
             display: block;
         }
+
         @keyframes dropdownIn {
-            from {
-                opacity: 0;
-                transform: translateY(-16px) scale(0.94);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(-16px) scale(0.94); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
+
         .notif-dropdown-header {
             padding: 14px 16px;
             border-bottom: 1px solid var(--border);
@@ -236,6 +246,7 @@
             z-index: 2;
             border-radius: 18px 18px 0 0;
         }
+
         .notif-dropdown-header button {
             background: none;
             border: none;
@@ -245,9 +256,11 @@
             font-weight: 600;
             font-family: inherit;
         }
+
         .notif-dropdown-header button:hover {
             text-decoration: underline;
         }
+
         .notif-item {
             padding: 12px 16px;
             border-bottom: 1px solid #f1f5f9;
@@ -257,13 +270,16 @@
             gap: 10px;
             align-items: flex-start;
         }
+
         .notif-item:hover {
             background: #f8fafd;
         }
+
         .notif-item.unread {
             background: #fffbeb;
             border-left: 3px solid #f59e0b;
         }
+
         .notif-item .notif-dot {
             width: 8px;
             height: 8px;
@@ -272,30 +288,36 @@
             flex-shrink: 0;
             margin-top: 5px;
         }
+
         .notif-item .notif-content {
             flex: 1;
         }
+
         .notif-item .notif-title {
             font-weight: 600;
             font-size: 0.8rem;
             color: var(--text);
         }
+
         .notif-item .notif-body {
             font-size: 0.7rem;
             color: var(--text-soft);
             margin-top: 2px;
         }
+
         .notif-item .notif-time {
             font-size: 0.6rem;
             color: #94a3b8;
             margin-top: 4px;
         }
+
         .notif-empty {
             text-align: center;
             padding: 30px;
             color: #94a3b8;
             font-size: 0.8rem;
         }
+
         .notif-empty i {
             font-size: 2rem;
             display: block;
@@ -303,6 +325,7 @@
             color: #cbd5e1;
         }
 
+        /* Toast Styles */
         .toast-container {
             position: fixed;
             top: 16px;
@@ -311,10 +334,10 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            pointer-events: none;
             max-width: 380px;
             width: calc(100% - 32px);
         }
+
         .toast {
             background: white;
             border-radius: 16px;
@@ -323,37 +346,16 @@
             display: flex;
             gap: 12px;
             align-items: flex-start;
-            pointer-events: auto;
-            animation: toastSlideIn 0.4s cubic-bezier(0.22, 0.97, 0.36, 1.1);
             border: 1px solid #e2e8f0;
-            position: relative;
-            overflow: hidden;
+            animation: slideIn 0.3s ease;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        .toast.removing {
-            animation: toastSlideOut 0.35s ease forwards;
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        @keyframes toastSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(120%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-        @keyframes toastSlideOut {
-            from {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(120%) scale(0.85);
-            }
-        }
+
         .toast-icon {
             width: 40px;
             height: 40px;
@@ -364,67 +366,127 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        .toast-icon.info {
-            background: #eff6ff;
-            color: #3b82f6;
-        }
-        .toast-icon.success {
-            background: #ecfdf5;
-            color: #10b981;
-        }
-        .toast-icon.warning {
-            background: #fffbeb;
-            color: #f59e0b;
-        }
-        .toast-content {
-            flex: 1;
-            min-width: 0;
-        }
-        .toast-title {
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
-        .toast-body {
-            font-size: 0.75rem;
-            color: var(--text-soft);
-            line-height: 1.3;
-        }
-        .toast-close {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 0.9rem;
-            padding: 4px;
-            flex-shrink: 0;
-            border-radius: 50%;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-        .toast-close:hover {
-            background: #f1f5f9;
-            color: #0f172a;
-        }
-        .toast-progress {
-            position: absolute;
-            bottom: 0;
+
+        .toast-icon.info { background: #eff6ff; color: #3b82f6; }
+        .toast-icon.success { background: #ecfdf5; color: #10b981; }
+        .toast-icon.warning { background: #fffbeb; color: #f59e0b; }
+        .toast-icon.error { background: #fef2f2; color: #ef4444; }
+
+        .toast-content { flex: 1; min-width: 0; }
+        .toast-title { font-weight: 700; font-size: 0.85rem; color: var(--text); margin-bottom: 2px; }
+        .toast-body { font-size: 0.75rem; color: var(--text-soft); line-height: 1.3; }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
             left: 0;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 0 0 0 16px;
-            animation: toastProgress 5s linear forwards;
-        }
-        @keyframes toastProgress {
-            from {
-                width: 100%;
-            }
-            to {
-                width: 0%;
-            }
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 400px;
+            width: 90%;
+            padding: 28px 22px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal h3 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            color: #64748b;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 40px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .modal input:focus {
+            border-color: #f97316;
+        }
+
+        .modal button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            border-radius: 40px;
+            width: 100%;
+            margin-top: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+        }
+
+        .modal button:hover {
+            background: #e2620e;
+        }
+
+        .modal .secondary-btn {
+            background: #f1f5f9;
+            color: #475569;
+            margin-top: 8px;
+        }
+
+        .modal .secondary-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* Settings Guide Styles */
+        .settings-steps {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+        }
+
+        .settings-steps li {
+            padding: 6px 0;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-number {
+            background: #f59e0b;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Main Content Styles */
         .main-content {
             max-width: 900px;
             margin: 0 auto;
@@ -432,6 +494,7 @@
             width: 100%;
             flex: 1;
         }
+
         .welcome-message {
             display: flex;
             align-items: center;
@@ -442,15 +505,18 @@
             font-size: 0.95rem;
             padding: 6px 0;
         }
+
         .welcome-message i {
             color: #f59e0b;
             font-size: 1.3rem;
         }
+
         .greeting-name {
             font-weight: 700;
             color: var(--accent);
         }
 
+        /* Slider Styles */
         .slider-section {
             margin: 0 0 20px;
             border-radius: 18px;
@@ -458,28 +524,33 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
             background: #fff;
         }
+
         .slider-container {
             position: relative;
             overflow: hidden;
             cursor: pointer;
         }
+
         .slides-wrapper {
             display: flex;
             transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.0);
-            will-change: transform;
         }
+
         .slide {
             flex: 0 0 100%;
             min-height: 200px;
             background-size: cover;
             background-position: center;
+            background-color: #e2e8f0;
         }
+
         .dots {
             display: flex;
             justify-content: center;
             gap: 10px;
             padding: 12px 0 8px;
         }
+
         .dot {
             width: 8px;
             height: 8px;
@@ -488,15 +559,18 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .dot.active {
             background: var(--accent);
             width: 24px;
         }
+
         .dot:hover {
             background: #f97316;
             transform: scale(1.3);
         }
 
+        /* Resource Grid Styles */
         .resource-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -504,6 +578,7 @@
             margin-top: 14px;
             margin-bottom: 10px;
         }
+
         .resource-item {
             background: white;
             border: 1px solid var(--border);
@@ -518,27 +593,32 @@
             transition: all 0.25s;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
+
         .resource-item:hover {
             border-color: #f97316;
             background: #fffaf5;
             transform: translateY(-4px);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
         }
+
         .resource-icon {
             font-size: 1.7rem;
             color: var(--primary);
             margin-bottom: 8px;
             transition: color 0.2s;
         }
+
         .resource-item:hover .resource-icon {
             color: #f97316;
         }
+
         .resource-label {
             font-weight: 600;
             font-size: 0.8rem;
             line-height: 1.2;
             margin-bottom: 4px;
         }
+
         .resource-tag {
             font-size: 0.6rem;
             background: #f97316;
@@ -549,12 +629,14 @@
             font-weight: 600;
         }
 
+        /* Footer Styles */
         .footer-nav {
             background: white;
             border-top: 1px solid var(--border);
             padding: 16px 20px;
             margin-top: auto;
         }
+
         .footer-items {
             max-width: 600px;
             margin: 0 auto;
@@ -565,6 +647,7 @@
             gap: 16px;
             text-align: center;
         }
+
         .footer-item {
             cursor: pointer;
             color: #475569;
@@ -578,27 +661,33 @@
             transition: 0.2s;
             font-size: 0.7rem;
         }
+
         .footer-item i {
             font-size: 1.2rem;
             color: var(--primary);
             transition: color 0.2s;
         }
+
         .footer-item:hover {
             color: #f97316;
             background: #fef7ee;
         }
+
         .footer-item:hover i {
             color: #f97316;
         }
+
         .copyright {
             text-align: center;
             font-size: 0.65rem;
             color: #94a3b8;
             margin-top: 12px;
         }
+
         .chat-whatsapp {
             position: relative;
         }
+
         .chat-whatsapp::after {
             content: '💬';
             position: absolute;
@@ -607,140 +696,41 @@
             font-size: 0.7rem;
         }
 
-        .name-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 0.3s;
-        }
-        .name-modal-overlay.hide {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .name-modal {
-            background: white;
-            border-radius: 24px;
-            max-width: 400px;
-            width: 90%;
-            padding: 28px 22px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        .name-modal h3 {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-        .name-modal p {
-            color: #64748b;
-            margin-bottom: 16px;
-            font-size: 0.85rem;
-        }
-        .name-modal input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 0.9rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 40px;
-            outline: none;
-            font-family: inherit;
-        }
-        .name-modal input:focus {
-            border-color: #f97316;
-        }
-        .name-modal button {
-            background: var(--accent);
-            border: none;
-            color: white;
-            font-weight: 700;
-            padding: 12px 20px;
-            border-radius: 40px;
-            width: 100%;
-            margin-top: 16px;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-family: inherit;
-        }
-        .name-modal button:hover {
-            background: #e2620e;
+        /* Responsive Styles */
+        @media (max-width: 500px) {
+            .slide { min-height: 160px; }
+            .resource-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .resource-item { padding: 14px 6px; }
+            .resource-icon { font-size: 1.3rem; }
+            .resource-label { font-size: 0.7rem; }
+            .site-name { font-size: 0.85rem; }
+            .subscribe-btn { font-size: 0.6rem; padding: 6px 10px; }
+            .toast-container { right: 6px; left: 6px; max-width: none; width: auto; }
         }
 
-        @media (max-width: 500px) {
-            .slide {
-                min-height: 160px;
-            }
-            .resource-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 8px;
-            }
-            .resource-item {
-                padding: 14px 6px;
-            }
-            .resource-icon {
-                font-size: 1.3rem;
-            }
-            .resource-label {
-                font-size: 0.7rem;
-            }
-            .site-name {
-                font-size: 0.85rem;
-            }
-            .subscribe-btn {
-                font-size: 0.6rem;
-                padding: 6px 10px;
-            }
-            .notif-dropdown {
-                width: 280px;
-                right: 4px;
-            }
-            .toast-container {
-                right: 6px;
-                left: 6px;
-                max-width: none;
-                width: auto;
-            }
-        }
         @media (min-width: 501px) and (max-width: 700px) {
-            .slide {
-                min-height: 200px;
-            }
-            .resource-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .slide { min-height: 200px; }
+            .resource-grid { grid-template-columns: repeat(3, 1fr); }
         }
+
         @media (min-width: 701px) {
-            .slide {
-                min-height: 240px;
-            }
-            .resource-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            .slide { min-height: 240px; }
+            .resource-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
-
+    <!-- Header -->
     <div class="main-header">
         <div class="header-container">
             <div class="header-left">
-                <div class="logo-area" onclick="window.location.href='/'" title="Triveni Pathsala Home">
+                <div class="logo-area" onclick="window.location.href='/'">
                     <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                     <span class="site-name">Triveni Pathsala</span>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="subscribe-btn" id="subscribeBtn" title="Enable push notifications">
+                <button class="subscribe-btn" id="subscribeBtn">
                     <i class="fas fa-bell-slash"></i> <span>Subscribe</span>
                 </button>
                 <button class="notify-icon" id="notificationBtn" title="Notifications">
@@ -749,6 +739,7 @@
                 </button>
             </div>
         </div>
+        <!-- Notification Dropdown -->
         <div class="notif-dropdown" id="notifDropdown">
             <div class="notif-dropdown-header">
                 <span><i class="fas fa-bell"></i> Notifications</span>
@@ -760,14 +751,17 @@
         </div>
     </div>
 
+    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Main Content -->
     <div class="main-content">
         <div class="welcome-message">
             <i class="fas fa-hand-peace"></i>
             <span>नमस्ते, <span class="greeting-name" id="greetingUser">Student</span></span>
         </div>
 
+        <!-- Slider Section -->
         <div class="slider-section">
             <div class="slider-container" id="sliderContainer">
                 <div class="slides-wrapper" id="slidesWrapper"></div>
@@ -775,9 +769,11 @@
             <div class="dots" id="dotsContainer"></div>
         </div>
 
+        <!-- Resource Grid -->
         <div class="resource-grid" id="resourceGrid"></div>
     </div>
 
+    <!-- Footer -->
     <div class="footer-nav">
         <div class="footer-items">
             <div class="footer-item" data-link="/alpha-home">
@@ -793,8 +789,21 @@
         <div class="copyright">© 2026 Triveni Pathsala • Made with ❤️ for students</div>
     </div>
 
+    <!-- Name Input Modal -->
+    <div class="modal-overlay" id="nameModal" style="display: none;">
+        <div class="modal">
+            <div style="font-size:2.4rem; color:#f97316; margin-bottom:6px;">
+                <i class="fas fa-user-astronaut"></i>
+            </div>
+            <h3>Welcome! 👋</h3>
+            <p>Enter your name to personalize your dashboard</p>
+            <input type="text" id="studentNameInput" placeholder="Your name" autocomplete="off">
+            <button id="submitNameBtn">Continue</button>
+        </div>
+    </div>
+
     <script>
-        // ==================== FIREBASE CONFIG ====================
+        // ==================== FIREBASE CONFIGURATION ====================
         const firebaseConfig = {
             apiKey: "AIzaSyBeZl52HEWGz-vE72QZ5taznvpYTfq3QUk",
             authDomain: "login-and-reg-5728d.firebaseapp.com",
@@ -804,247 +813,144 @@
             messagingSenderId: "435846403197",
             appId: "1:435846403197:web:d6a05a55e40839d15dcd14"
         };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase
+        let database;
+        let messaging;
+        
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+                console.log('✅ Firebase initialized');
+            }
+            database = firebase.database();
+            messaging = firebase.messaging();
+            console.log('✅ Firebase services ready');
+        } catch (error) {
+            console.error('❌ Firebase init error:', error);
         }
-        const database = firebase.database();
-        const messaging = firebase.messaging();
 
         // ==================== TOAST SYSTEM ====================
-        const toastContainer = document.getElementById('toastContainer');
-        let toastIdCounter = 0;
-        const activeToasts = [];
-
-        function playNotificationSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const notes = [800, 1000, 1200];
-                notes.forEach((freq, i) => {
-                    const osc = audioCtx.createOscillator();
-                    const gain = audioCtx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.1);
-                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime + i * 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.1 + 0.15);
-                    osc.connect(gain);
-                    gain.connect(audioCtx.destination);
-                    osc.start(audioCtx.currentTime + i * 0.1);
-                    osc.stop(audioCtx.currentTime + i * 0.1 + 0.15);
-                });
-            } catch (e) { /* silent fail */ }
-        }
-
-        function showToast(title, body, type = 'info') {
-            const id = ++toastIdCounter;
+        function showToast(title, message, type = 'info') {
+            const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.setAttribute('data-toast-id', id);
-
-            let iconClass = 'fa-bell';
-            let iconTypeClass = 'info';
-            if (type === 'success') { iconClass = 'fa-check-circle'; iconTypeClass = 'success'; }
-            else if (type === 'warning') { iconClass = 'fa-exclamation-triangle'; iconTypeClass = 'warning'; }
-            else if (type === 'error') { iconClass = 'fa-times-circle'; iconTypeClass = 'warning'; }
-            else { iconClass = 'fa-bell'; iconTypeClass = 'info'; }
-
+            
+            let iconHtml = 'fa-info-circle';
+            let iconClass = 'info';
+            
+            switch(type) {
+                case 'success':
+                    iconHtml = 'fa-check-circle';
+                    iconClass = 'success';
+                    break;
+                case 'warning':
+                    iconHtml = 'fa-exclamation-triangle';
+                    iconClass = 'warning';
+                    break;
+                case 'error':
+                    iconHtml = 'fa-times-circle';
+                    iconClass = 'error';
+                    break;
+            }
+            
             toast.innerHTML = `
-                <div class="toast-icon ${iconTypeClass}"><i class="fas ${iconClass}"></i></div>
-                <div class="toast-content">
-                    <div class="toast-title">${escapeHtml(title)}</div>
-                    <div class="toast-body">${escapeHtml(body)}</div>
+                <div class="toast-icon ${iconClass}">
+                    <i class="fas ${iconHtml}"></i>
                 </div>
-                <button class="toast-close" aria-label="Close"><i class="fas fa-times"></i></button>
-                <div class="toast-progress"></div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-body">${message}</div>
+                </div>
             `;
-
-            toastContainer.appendChild(toast);
-            activeToasts.push({ id, element: toast });
-
-            const autoRemoveTimer = setTimeout(() => removeToast(id), 5000);
-            toast._autoRemoveTimer = autoRemoveTimer;
-
-            toast.addEventListener('click', (e) => {
-                if (!e.target.closest('.toast-close')) removeToast(id);
-            });
-            toast.querySelector('.toast-close').addEventListener('click', (e) => {
-                e.stopPropagation();
-                removeToast(id);
-            });
-
-            while (activeToasts.length > 5) removeToast(activeToasts[0].id);
-            playNotificationSound();
-            return id;
-        }
-
-        function removeToast(id) {
-            const idx = activeToasts.findIndex(t => t.id === id);
-            if (idx === -1) return;
-            const { element } = activeToasts[idx];
-            clearTimeout(element._autoRemoveTimer);
-            element.classList.add('removing');
-            element.addEventListener('animationend', () => { if (element.parentNode) element.remove(); });
-            setTimeout(() => { if (element.parentNode) element.remove(); }, 400);
-            activeToasts.splice(idx, 1);
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        // ==================== FCM PUSH NOTIFICATIONS ====================
-        let currentFcmToken = null;
-
-        async function requestFcmPermission() {
-            try {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    // Get FCM token
-                    const token = await messaging.getToken({ vapidKey: 'BPCcXk1V97LqX0bY9wR5xL7jK3nM2pQ8sT6uV4wX2yZ8aB9cD0eF1gH2iJ3kL4mN5oP6qR7sT8uV9wX0yZ1' });
-                    if (token) {
-                        currentFcmToken = token;
-                        console.log('✅ FCM Token:', token);
-                        // Store token in Firebase under the user's name
-                        const studentName = localStorage.getItem('alphaStudentName') || 'Guest';
-                        const sanitized = studentName.replace(/[.#$[\]]/g, '_');
-                        await database.ref(`fcm_tokens/${sanitized}`).set({
-                            token: token,
-                            lastUpdated: firebase.database.ServerValue.TIMESTAMP,
-                            userAgent: navigator.userAgent
-                        });
-                        showToast('🔔 Push Enabled', 'You will receive notifications even when app is closed.', 'success');
-                    } else {
-                        console.warn('No FCM token');
-                    }
-                } else {
-                    showToast('⚠️ Notifications blocked', 'Please enable in browser/app settings.', 'warning');
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    toast.style.transition = 'all 0.3s ease';
+                    setTimeout(() => { if (toast.parentElement) toast.remove(); }, 300);
                 }
-                updateSubscribeButton();
-            } catch (err) {
-                console.error('FCM error:', err);
-                showToast('❌ Error', 'Could not enable push. Check your connection.', 'error');
-            }
+            }, 4000);
+            
+            toast.addEventListener('click', () => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(100%)';
+                    toast.style.transition = 'all 0.3s ease';
+                    setTimeout(() => { if (toast.parentElement) toast.remove(); }, 300);
+                }
+            });
         }
 
-        // Listen for foreground messages from FCM
-        messaging.onMessage((payload) => {
-            console.log('Foreground FCM:', payload);
-            const title = payload.notification?.title || 'Triveni Pathsala';
-            const body = payload.notification?.body || 'New update available';
-            showToast(title, body, 'info');
-            // Also add to local history
-            addToNotifHistory({ title, body, timestamp: Date.now() });
-        });
-
-        // ==================== SUBSCRIBE BUTTON ====================
-        function updateSubscribeButton() {
-            const btn = document.getElementById('subscribeBtn');
-            const icon = btn.querySelector('i');
-            const span = btn.querySelector('span');
-            if (Notification.permission === 'granted') {
-                btn.className = 'subscribe-btn subscribed';
-                icon.className = 'fas fa-bell';
-                span.textContent = 'Subscribed';
-                btn.title = 'Push notifications are enabled';
-            } else if (Notification.permission === 'denied') {
-                btn.className = 'subscribe-btn blocked';
-                icon.className = 'fas fa-bell-slash';
-                span.textContent = 'Blocked';
-                btn.title = 'Notifications blocked in settings';
-            } else {
-                btn.className = 'subscribe-btn';
-                icon.className = 'fas fa-bell-slash';
-                span.textContent = 'Subscribe';
-                btn.title = 'Click to enable push notifications';
-            }
-        }
-
-        document.getElementById('subscribeBtn').addEventListener('click', async () => {
-            if (Notification.permission === 'granted') {
-                showToast('✅ Already Subscribed', 'You will receive push updates.', 'success');
-                return;
-            }
-            if (Notification.permission === 'denied') {
-                showToast('⚠️ Notifications Blocked', 'Please enable in browser/app settings.', 'warning');
-                return;
-            }
-            await requestFcmPermission();
-        });
-
-        // ==================== NOTIFICATION DROPDOWN (same as before) ====================
-        const notifDropdown = document.getElementById('notifDropdown');
-        const notifDropdownBody = document.getElementById('notifDropdownBody');
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notifyBadge = document.getElementById('notifyBadge');
-        let unreadCount = 0;
+        // ==================== NOTIFICATION HISTORY ====================
         const NOTIF_HISTORY_KEY = 'triveni_notif_history';
         const LAST_SEEN_KEY = 'triveni_last_seen_timestamp';
-
+        
         function getNotifHistory() {
             try { return JSON.parse(localStorage.getItem(NOTIF_HISTORY_KEY) || '[]'); }
             catch (e) { return []; }
         }
+        
         function saveNotifHistory(history) {
             try { localStorage.setItem(NOTIF_HISTORY_KEY, JSON.stringify(history.slice(0, 50))); }
-            catch (e) { }
+            catch (e) { console.error('Save history error:', e); }
         }
+        
         function getLastSeenTimestamp() {
             try { return parseInt(localStorage.getItem(LAST_SEEN_KEY) || '0'); }
             catch (e) { return 0; }
         }
+        
         function setLastSeenTimestamp(ts) {
             try { localStorage.setItem(LAST_SEEN_KEY, String(ts)); }
-            catch (e) { }
+            catch (e) { console.error('Set timestamp error:', e); }
         }
+        
         function addToNotifHistory(notif) {
             const history = getNotifHistory();
             history.unshift({
                 title: notif.title,
                 body: notif.body,
                 timestamp: notif.timestamp || Date.now(),
-                read: false,
+                read: false
             });
             saveNotifHistory(history);
-            unreadCount++;
             updateBadge();
             renderNotifDropdown();
         }
-        function markAllAsRead() {
-            const history = getNotifHistory();
-            history.forEach(n => n.read = true);
-            saveNotifHistory(history);
-            unreadCount = 0;
-            updateBadge();
-            renderNotifDropdown();
-        }
-        function clearAllNotifs() {
-            saveNotifHistory([]);
-            unreadCount = 0;
-            updateBadge();
-            renderNotifDropdown();
-        }
+        
         function updateBadge() {
+            const badge = document.getElementById('notifyBadge');
+            const history = getNotifHistory();
+            const unreadCount = history.filter(n => !n.read).length;
+            
             if (unreadCount > 0) {
-                notifyBadge.textContent = unreadCount > 99 ? '99+' : String(unreadCount);
-                notifyBadge.classList.add('visible');
+                badge.textContent = unreadCount > 99 ? '99+' : String(unreadCount);
+                badge.classList.add('visible');
             } else {
-                notifyBadge.classList.remove('visible');
+                badge.classList.remove('visible');
             }
         }
+        
         function renderNotifDropdown() {
+            const body = document.getElementById('notifDropdownBody');
             const history = getNotifHistory();
+            
             if (history.length === 0) {
-                notifDropdownBody.innerHTML = '<div class="notif-empty"><i class="fas fa-inbox"></i> No notifications yet</div>';
+                body.innerHTML = '<div class="notif-empty"><i class="fas fa-inbox"></i> No notifications yet</div>';
                 return;
             }
-            notifDropdownBody.innerHTML = history.slice(0, 20).map((n, i) => {
+            
+            body.innerHTML = history.slice(0, 20).map((n, i) => {
                 const timeStr = n.timestamp ? new Date(n.timestamp).toLocaleString('en-IN', {
                     day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
                 }) : '';
                 const unreadClass = n.read ? '' : 'unread';
                 const dotOrNot = n.read ? '' : '<div class="notif-dot"></div>';
+                
                 return `
                     <div class="notif-item ${unreadClass}" data-idx="${i}">
                         ${dotOrNot}
@@ -1057,7 +963,32 @@
                 `;
             }).join('');
         }
+        
+        function markAllAsRead() {
+            const history = getNotifHistory();
+            history.forEach(n => n.read = true);
+            saveNotifHistory(history);
+            updateBadge();
+            renderNotifDropdown();
+        }
+        
+        function clearAllNotifs() {
+            saveNotifHistory([]);
+            updateBadge();
+            renderNotifDropdown();
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
 
+        // ==================== NOTIFICATION DROPDOWN TOGGLE ====================
+        const notifDropdown = document.getElementById('notifDropdown');
+        const notificationBtn = document.getElementById('notificationBtn');
+        
         notificationBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = notifDropdown.classList.contains('open');
@@ -1069,220 +1000,410 @@
                 renderNotifDropdown();
             }
         });
+        
         document.getElementById('clearAllNotifs').addEventListener('click', (e) => {
             e.stopPropagation();
             clearAllNotifs();
         });
+        
         document.addEventListener('click', (e) => {
             if (!notifDropdown.contains(e.target) && e.target !== notificationBtn && !notificationBtn.contains(e.target)) {
                 notifDropdown.classList.remove('open');
             }
         });
-        (function initHistory() {
-            const history = getNotifHistory();
-            unreadCount = history.filter(n => !n.read).length;
-            updateBadge();
-            renderNotifDropdown();
-        })();
 
-        // ==================== NAME MODAL & FIREBASE LISTENERS ====================
-        (function setupNameAndListeners() {
-            const storedName = localStorage.getItem('alphaStudentName');
-            const greetingSpan = document.getElementById('greetingUser');
-            if (storedName && storedName.trim() !== "") {
-                if (greetingSpan) greetingSpan.innerText = storedName;
-                afterNameReady(storedName);
+        // ==================== FIREBASE REAL-TIME NOTIFICATION LISTENER ====================
+        function setupFirebaseListeners() {
+            if (!database) {
+                console.warn('⚠️ Database not initialized');
                 return;
             }
-            const overlay = document.createElement('div');
-            overlay.className = 'name-modal-overlay';
-            overlay.innerHTML = `
-                <div class="name-modal">
-                    <div style="font-size:2.4rem; color:#f97316; margin-bottom:6px;"><i class="fas fa-user-astronaut"></i></div>
-                    <h3>Welcome! 👋</h3>
-                    <p>Enter your name to personalize your dashboard</p>
-                    <input type="text" id="studentNameInput" placeholder="Your name" autocomplete="off">
-                    <button id="submitNameBtn">Continue</button>
-                </div>`;
-            document.body.appendChild(overlay);
-            const input = document.getElementById('studentNameInput');
-            const submit = document.getElementById('submitNameBtn');
-
-            function saveAndClose() {
-                let name = input.value.trim() || "Student";
-                if (greetingSpan) greetingSpan.innerText = name;
-                localStorage.setItem('alphaStudentName', name);
-                overlay.classList.add('hide');
-                setTimeout(() => overlay.remove(), 300);
-                afterNameReady(name);
-            }
-            submit.addEventListener('click', saveAndClose);
-            input.addEventListener('keypress', e => { if (e.key === 'Enter') saveAndClose(); });
-            setTimeout(() => input.focus(), 150);
-        })();
-
-        function afterNameReady(studentName) {
-            updateSubscribeButton();
-
-            // Auto-request notification permission (gentle)
-            setTimeout(() => {
-                if (Notification.permission === 'default') {
-                    requestFcmPermission();
-                }
-            }, 2000);
-
-            const studentKey = studentName.replace(/\s/g, '_');
+            
             const lastSeenTs = getLastSeenTimestamp();
-
-            // Listen for global notifications (RTDB)
+            
+            // Listen for global notifications
             const allRef = database.ref('notifications/all');
             allRef.on('child_added', (snap) => {
                 const notif = snap.val();
                 if (notif && notif.title && notif.body) {
                     const notifTs = notif.timestamp || 0;
-                    if (notifTs > lastSeenTs || lastSeenTs === 0) {
-                        showToast(notif.title, notif.body, 'info');
-                        addToNotifHistory({ title: notif.title, body: notif.body, timestamp: notifTs });
-                        if (notifTs > getLastSeenTimestamp()) setLastSeenTimestamp(notifTs);
+                    console.log('📨 New notification received:', notif.title);
+                    
+                    // Show toast notification
+                    showToast(notif.title, notif.body, 'info');
+                    
+                    // Add to history
+                    addToNotifHistory({
+                        title: notif.title,
+                        body: notif.body,
+                        timestamp: notifTs
+                    });
+                    
+                    // Update last seen timestamp
+                    if (notifTs > getLastSeenTimestamp()) {
+                        setLastSeenTimestamp(notifTs);
                     }
                 }
             });
-
-            // Personal notifications
+            
+            // Listen for personal notifications
+            const studentName = localStorage.getItem('alphaStudentName') || 'Guest';
+            const studentKey = studentName.replace(/[.#$[\]]/g, '_').replace(/\s/g, '_');
             const personalRef = database.ref(`notifications/student_${studentKey}`);
+            
             personalRef.on('child_added', (snap) => {
                 const notif = snap.val();
                 if (notif && notif.title && notif.body) {
                     const notifTs = notif.timestamp || 0;
-                    if (notifTs > lastSeenTs || lastSeenTs === 0) {
-                        showToast('📩 ' + notif.title, notif.body, 'warning');
-                        addToNotifHistory({ title: '📩 ' + notif.title, body: notif.body, timestamp: notifTs });
-                        if (notifTs > getLastSeenTimestamp()) setLastSeenTimestamp(notifTs);
+                    console.log('📩 Personal notification received:', notif.title);
+                    
+                    showToast('📩 ' + notif.title, notif.body, 'warning');
+                    
+                    addToNotifHistory({
+                        title: '📩 ' + notif.title,
+                        body: notif.body,
+                        timestamp: notifTs
+                    });
+                    
+                    if (notifTs > getLastSeenTimestamp()) {
+                        setLastSeenTimestamp(notifTs);
                     }
                 }
             });
-
-            // If first time, set last seen timestamp
+            
+            console.log('✅ Firebase listeners active for:', studentName);
+            
+            // Set initial timestamp if first time
             if (lastSeenTs === 0) {
                 allRef.orderByChild('timestamp').limitToLast(1).once('value', (snap) => {
                     if (snap.exists()) {
                         const vals = Object.values(snap.val());
-                        if (vals.length > 0 && vals[0].timestamp) setLastSeenTimestamp(vals[0].timestamp);
+                        if (vals.length > 0 && vals[0].timestamp) {
+                            setLastSeenTimestamp(vals[0].timestamp);
+                        }
                     } else {
                         setLastSeenTimestamp(Date.now());
                     }
                 });
             }
-
-            console.log('✅ Notification listeners active for:', studentName);
         }
 
-        // ==================== SERVICE WORKER REGISTRATION ====================
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-                .catch(err => console.warn('⚠️ Service Worker registration failed:', err.message));
-        }
-
-        // ==================== IMAGE SLIDER & RESOURCES ====================
-        const slidesData = [
-            { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqlqupKpBStr-OjLdXyvxu2YpLUtmPGY6mYUQh8icare5CLaK9t70ZV_OIpyEfLfn4HevCZGHe3EFxnTZIOjA8HQ3kNoxwzARrtaYjF_PqqOLBvqKzPHvV08EwJDwrrNaYsC3o8HwXcGvjGCJ2b3EcKLnXkZBiulQ5zsNUH1AJGkcTqr-l1RLkqQKFDAJx/s853/im%201%20.gif" },
-            { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwFfIrlUQv4QJH0iqy8rJyHRZZhpTYXbDhTycz8DWUHgiLStkFJIWRZuvkqadKCLp-5wYpbQ897LJQBpNnCqa-dxwpyMH8NpPmc32OQJaIrdEesvLTTcNvp2_WqI42YyRANPZfHIkXWerLMF78CHADDTfAC59SwAK3oR2e1Gi6R_qZBQRKivhuVjlBd-Y9/s853/Presentation2.gif" },
-            { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrxwFLsFFpm1iO1ZSTSpzHPTCehdCw3M-YvEWYUwl5g7BvAzaBzmDnV7qXuLkY8ZWnAG9u32MAE-vDCnkHEQTxwefL3qYldp5vDXcwbC6rxf3Xgppqf2zuAelSqZe1YQAUMvOCwY_wD4dFFZn0CZZxwShbl00PGSsaPS2itb-B6WMdDLa7WMrU5DLPozMn/s853/ia%202.gif" }
-        ];
-        let currentIndex = 0;
-        const totalSlides = slidesData.length;
-        const slidesWrapper = document.getElementById('slidesWrapper');
-        const dotsContainer = document.getElementById('dotsContainer');
-        let autoInterval;
-
-        function buildSlides() {
-            slidesWrapper.innerHTML = slidesData.map(slide => `<div class="slide" style="background-image: url('${slide.img}');"></div>`).join('');
-        }
-        function createDots() {
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
-                if (i === currentIndex) dot.classList.add('active');
-                dot.addEventListener('click', () => goToSlide(i));
-                dotsContainer.appendChild(dot);
+        // ==================== SUBSCRIBE BUTTON ====================
+        function updateSubscribeButton() {
+            const btn = document.getElementById('subscribeBtn');
+            const icon = btn.querySelector('i');
+            const span = btn.querySelector('span');
+            
+            if (!('Notification' in window)) {
+                btn.className = 'subscribe-btn blocked';
+                icon.className = 'fas fa-bell-slash';
+                span.textContent = 'Not Supported';
+                return;
+            }
+            
+            const permission = Notification.permission;
+            
+            switch(permission) {
+                case 'granted':
+                    btn.className = 'subscribe-btn subscribed';
+                    icon.className = 'fas fa-bell';
+                    span.textContent = 'Subscribed';
+                    break;
+                case 'denied':
+                    btn.className = 'subscribe-btn blocked';
+                    icon.className = 'fas fa-bell-slash';
+                    span.textContent = 'Blocked';
+                    break;
+                default:
+                    btn.className = 'subscribe-btn';
+                    icon.className = 'fas fa-bell-slash';
+                    span.textContent = 'Subscribe';
             }
         }
-        function updateDots() {
-            document.querySelectorAll('.dot').forEach((dot, idx) => { dot.classList.toggle('active', idx === currentIndex); });
+        
+        document.getElementById('subscribeBtn').addEventListener('click', async () => {
+            const permission = Notification.permission;
+            
+            if (permission === 'granted') {
+                showToast('✅ Already Subscribed', 'You are receiving notifications!', 'success');
+                return;
+            }
+            
+            if (permission === 'denied') {
+                // DIRECT REDIRECT TO CHROME NOTIFICATION SETTINGS
+                showToast('🔧 Opening Settings...', 'Redirecting to Chrome notification settings...', 'info');
+                
+                // Multiple methods to open Chrome notification settings
+                setTimeout(() => {
+                    // Method 1: Chrome settings URL
+                    window.location.href = 'chrome://settings/content/notifications';
+                    
+                    // Method 2: Try site-specific settings
+                    setTimeout(() => {
+                        const origin = window.location.origin;
+                        window.open(`chrome://settings/content/siteDetails?site=${origin}`, '_blank');
+                    }, 500);
+                    
+                    // Method 3: Show manual instructions as backup
+                    setTimeout(() => {
+                        alert('To enable notifications:\n\n1. Go to Chrome Settings\n2. Privacy & Security → Site Settings\n3. Notifications\n4. Find this site and select "Allow"\n5. Come back and refresh');
+                    }, 1500);
+                }, 300);
+                
+                return;
+            }
+            
+            // Request permission
+            try {
+                const result = await Notification.requestPermission();
+                
+                if (result === 'granted') {
+                    showToast('✅ Enabled!', 'You will now receive notifications.', 'success');
+                    
+                    // Send test notification
+                    setTimeout(() => {
+                        new Notification('Triveni Pathsala', {
+                            body: 'Welcome! Notifications are working perfectly! 🔔',
+                            icon: 'https://cdn-icons-png.flaticon.com/512/3135/3135810.png'
+                        });
+                    }, 1000);
+                    
+                    // Setup Firebase listeners
+                    setupFirebaseListeners();
+                    
+                } else if (result === 'denied') {
+                    showToast('❌ Blocked', 'Redirecting to settings...', 'error');
+                    
+                    // Redirect to Chrome notification settings
+                    setTimeout(() => {
+                        window.location.href = 'chrome://settings/content/notifications';
+                    }, 1000);
+                    
+                } else {
+                    showToast('⚠️ Dismissed', 'Please allow notifications to receive updates.', 'warning');
+                }
+                
+                updateSubscribeButton();
+                
+            } catch (error) {
+                console.error('Permission error:', error);
+                
+                // Fallback: Open Chrome settings
+                setTimeout(() => {
+                    window.location.href = 'chrome://settings/content/notifications';
+                }, 500);
+            }
+        });
+
+        // ==================== NAME MODAL ====================
+        function initNameModal() {
+            const storedName = localStorage.getItem('alphaStudentName');
+            
+            if (!storedName || storedName.trim() === '') {
+                const modal = document.getElementById('nameModal');
+                modal.style.display = 'flex';
+                
+                const input = document.getElementById('studentNameInput');
+                const submitBtn = document.getElementById('submitNameBtn');
+                
+                setTimeout(() => input.focus(), 100);
+                
+                function saveName() {
+                    let name = input.value.trim() || 'Student';
+                    localStorage.setItem('alphaStudentName', name);
+                    document.getElementById('greetingUser').textContent = name;
+                    modal.style.display = 'none';
+                    
+                    showToast('Welcome! 👋', `Hello ${name}, happy learning!`, 'success');
+                    
+                    // Setup Firebase listeners after name is set
+                    setupFirebaseListeners();
+                }
+                
+                submitBtn.addEventListener('click', saveName);
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') saveName();
+                });
+            } else {
+                document.getElementById('greetingUser').textContent = storedName;
+                // Setup Firebase listeners if name already exists
+                setupFirebaseListeners();
+            }
         }
-        function goToSlide(index) {
-            if (index < 0) index = totalSlides - 1;
-            if (index >= totalSlides) index = 0;
-            currentIndex = index;
-            slidesWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
-            updateDots();
-            resetAutoPlay();
-        }
-        function nextSlide() { goToSlide(currentIndex + 1); }
-        function resetAutoPlay() {
-            if (autoInterval) clearInterval(autoInterval);
-            autoInterval = setInterval(() => nextSlide(), 5000);
-        }
+
+        // ==================== IMAGE SLIDER ====================
         function initSlider() {
-            buildSlides();
-            createDots();
-            goToSlide(0);
-            const container = document.getElementById('sliderContainer');
-            container.addEventListener('mouseenter', () => clearInterval(autoInterval));
-            container.addEventListener('mouseleave', resetAutoPlay);
+            const slidesData = [
+                { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqlqupKpBStr-OjLdXyvxu2YpLUtmPGY6mYUQh8icare5CLaK9t70ZV_OIpyEfLfn4HevCZGHe3EFxnTZIOjA8HQ3kNoxwzARrtaYjF_PqqOLBvqKzPHvV08EwJDwrrNaYsC3o8HwXcGvjGCJ2b3EcKLnXkZBiulQ5zsNUH1AJGkcTqr-l1RLkqQKFDAJx/s853/im%201%20.gif" },
+                { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwFfIrlUQv4QJH0iqy8rJyHRZZhpTYXbDhTycz8DWUHgiLStkFJIWRZuvkqadKCLp-5wYpbQ897LJQBpNnCqa-dxwpyMH8NpPmc32OQJaIrdEesvLTTcNvp2_WqI42YyRANPZfHIkXWerLMF78CHADDTfAC59SwAK3oR2e1Gi6R_qZBQRKivhuVjlBd-Y9/s853/Presentation2.gif" },
+                { img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrxwFLsFFpm1iO1ZSTSpzHPTCehdCw3M-YvEWYUwl5g7BvAzaBzmDnV7qXuLkY8ZWnAG9u32MAE-vDCnkHEQTxwefL3qYldp5vDXcwbC6rxf3Xgppqf2zuAelSqZe1YQAUMvOCwY_wD4dFFZn0CZZxwShbl00PGSsaPS2itb-B6WMdDLa7WMrU5DLPozMn/s853/ia%202.gif" }
+            ];
+            
+            const slidesWrapper = document.getElementById('slidesWrapper');
+            const dotsContainer = document.getElementById('dotsContainer');
+            
+            slidesWrapper.innerHTML = '';
+            dotsContainer.innerHTML = '';
+            
+            let currentIndex = 0;
+            const totalSlides = slidesData.length;
+            let autoSlideInterval;
+            
+            // Create slides
+            slidesData.forEach(slide => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slide';
+                slideDiv.style.backgroundImage = `url('${slide.img}')`;
+                slidesWrapper.appendChild(slideDiv);
+            });
+            
+            // Create dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateSlider();
+                    resetAutoSlide();
+                });
+                dotsContainer.appendChild(dot);
+            }
+            
+            function updateSlider() {
+                slidesWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                const dots = dotsContainer.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+            
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlider();
+            }
+            
+            function startAutoSlide() {
+                autoSlideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function resetAutoSlide() {
+                clearInterval(autoSlideInterval);
+                startAutoSlide();
+            }
+            
+            updateSlider();
+            startAutoSlide();
+            
+            // Touch support
             let touchStartX = 0;
-            container.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; clearInterval(autoInterval); }, { passive: true });
-            container.addEventListener('touchend', e => {
+            const sliderContainer = document.getElementById('sliderContainer');
+            
+            sliderContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                clearInterval(autoSlideInterval);
+            }, {passive: true});
+            
+            sliderContainer.addEventListener('touchend', (e) => {
                 const diff = touchStartX - e.changedTouches[0].screenX;
-                if (Math.abs(diff) > 40) diff > 0 ? nextSlide() : goToSlide(currentIndex - 1);
-                resetAutoPlay();
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        currentIndex = (currentIndex + 1) % totalSlides;
+                    } else {
+                        currentIndex = currentIndex - 1;
+                        if (currentIndex < 0) currentIndex = totalSlides - 1;
+                    }
+                    updateSlider();
+                }
+                startAutoSlide();
+            });
+            
+            sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
+        }
+
+        // ==================== RESOURCE GRID ====================
+        function initResources() {
+            const resources = [
+                { label: "Student Section", icon: "fas fa-user-lock", link: "./register.html", tag: "" },
+                { label: "New Admission", icon: "fas fa-clipboard-list", link: "./addmision.html", tag: "2026" },
+                { label: "Students ID Card", icon: "fas fa-id-card", link: "./login.html", tag: "" },
+                { label: "Fee Payment", icon: "fas fa-qrcode", link: "./payment.html", tag: "Direct" },
+                { label: "Online Classes", icon: "fas fa-video", link: "./online-classes.html", tag: "Coming Soon" },
+                { label: "Books PDF", icon: "fas fa-book-open", link: "./books-pdf.html", tag: "NEW" },
+                { label: "Class Notes", icon: "fas fa-pencil-alt", link: "./class-notes.html", tag: "PDF" }
+            ];
+            
+            const grid = document.getElementById('resourceGrid');
+            grid.innerHTML = '';
+            
+            resources.forEach(item => {
+                const link = document.createElement('a');
+                link.href = item.link;
+                link.className = 'resource-item';
+                
+                let tagHtml = item.tag ? `<div class="resource-tag">${item.tag}</div>` : '';
+                
+                link.innerHTML = `
+                    <div class="resource-icon"><i class="${item.icon}"></i></div>
+                    <span class="resource-label">${item.label}</span>
+                    ${tagHtml}
+                `;
+                
+                grid.appendChild(link);
             });
         }
 
-        const resources = [
-            { label: "Student Section", icon: "fas fa-user-lock", link: "./register.html", tag: "" },
-            { label: "New Admission", icon: "fas fa-clipboard-list", link: "./addmision.html", tag: "2026" },
-            { label: "Students ID Card", icon: "fas fa-id-card", link: "./login.html", tag: "" },
-            { label: "Fee Payment", icon: "fas fa-qrcode", link: "./payment.html", tag: "Direct Payment" },
-            { label: "Online Classes", icon: "fas fa-video", link: "./online-classes.html", tag: "On the Way" },
-            { label: "Books PDF", icon: "fas fa-book-open", link: "./books-pdf.html", tag: "NEW" },
-            { label: "Class Notes", icon: "fas fa-pencil-alt", link: "./class-notes.html", tag: "PDF" },
-        ];
-        function buildResourceGrid() {
-            const grid = document.getElementById('resourceGrid');
-            grid.innerHTML = resources.map(item => `
-                <a href="${item.link}" class="resource-item">
-                    <div class="resource-icon"><i class="${item.icon}"></i></div>
-                    <span class="resource-label">${item.label}</span>
-                    ${item.tag ? `<div class="resource-tag">${item.tag}</div>` : ''}
-                </a>
-            `).join('');
-        }
-
-        function setupFooter() {
-            const items = document.querySelectorAll('.footer-item');
-            const wsNumber = '916202320527';
-            const msg = encodeURIComponent('Hello Triveni Pathsala! 👋 I need help.');
-            const wsUrl = `https://wa.me/${wsNumber}?text=${msg}`;
-            items.forEach(item => {
-                const isWs = item.getAttribute('data-link') === 'whatsapp';
+        // ==================== FOOTER ====================
+        function initFooter() {
+            const footerItems = document.querySelectorAll('.footer-item');
+            
+            footerItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    if (isWs) { window.open(wsUrl, '_blank', 'noopener'); return; }
-                    const dest = item.getAttribute('data-link') || '#';
-                    window.location.href = dest;
+                    const link = item.getAttribute('data-link');
+                    
+                    if (link === 'whatsapp') {
+                        const phoneNumber = '916202320527';
+                        const message = encodeURIComponent('Hello Triveni Pathsala! 👋 I need help.');
+                        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+                    } else if (link) {
+                        window.location.href = link;
+                    }
                 });
             });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initSlider();
-            buildResourceGrid();
-            setupFooter();
-            updateSubscribeButton();
-        });
-        setInterval(updateSubscribeButton, 5000);
+        // ==================== INITIALIZATION ====================
+        function initApp() {
+            console.log('🚀 Starting Triveni Pathsala...');
+            
+            try {
+                initNameModal();
+                initSlider();
+                initResources();
+                initFooter();
+                updateSubscribeButton();
+                updateBadge();
+                renderNotifDropdown();
+                
+                console.log('✅ All components initialized');
+                console.log('✅ Bell icon is visible on right side');
+                console.log('✅ Firebase notification listener ready');
+                console.log('✅ Click Subscribe for Chrome notification settings redirect');
+                
+            } catch (error) {
+                console.error('❌ Init error:', error);
+            }
+        }
+
+        // Start app when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+        
+        // Periodically check subscribe button state
+        setInterval(updateSubscribeButton, 3000);
     </script>
 </body>
 </html>
